@@ -1,0 +1,52 @@
+:root {
+    --header-size: 77px;
+
+    /* Ensure that these two colors are contrasting */
+    --primary-color: rgb(255, 191, 71); /* determines color of header background and card glow */
+    --header-text-color: black; /* determines color of header text */
+}
+
+header {
+    flex:0;
+    text-align: center;
+    background-color: var(--primary-color);
+    height: var(--header-size);
+    color: var(--header-text-color);
+    padding: 20px;
+}
+
+footer {
+    text-align: center;
+    background-color: var(--primary-color);
+    position: relative;
+    padding: 10px;
+    bottom: 0;
+}
+
+main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.routes {
+    font-size: 20px;
+}
+
+.title {
+
+}
+
+.app-div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
