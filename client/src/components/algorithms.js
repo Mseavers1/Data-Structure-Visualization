@@ -11,21 +11,21 @@ export default function Algorithms() {
                 </h2>
 
                 <nav className="algorithms-links">
-                    <ul>
+                    <ul className="test">
                         <li><Link to="/algorithms/arrays">Arrays</Link></li>
-                        <li>Lists</li>
+                        <li><i>Lists</i></li>
                         <ul>
                             <li><Link to="/algorithms/lists/array">Array Lists</Link></li>
                             <li><Link to="/algorithms/lists/linked">Linked Lists</Link></li>
                             <li><Link to="/algorithms/lists/doubly-linked">Doubly Linked Lists</Link></li>
                             <li><Link to="/algorithms/lists/circular-linked">Circular Linked Lists</Link></li>
                         </ul>
-                        <li>Stacks</li>
+                        <li><i>Stacks</i></li>
                         <ul>
                             <li><Link to="/algorithms/stacks/array">Array Stacks</Link></li>
                             <li><Link to="/algorithms/stacks/linked">Linked Stacks</Link></li>
                         </ul>
-                        <li>Queues</li>
+                        <li><i>Queues</i></li>
                         <ul>
                             <li><Link to="/algorithms/queues/array">Array Queues</Link></li>
                             <li><Link to="/algorithms/queues/linked">Linked Queues</Link></li>
@@ -45,11 +45,11 @@ export default function Algorithms() {
 
                 <nav className="algorithms-links">
                     <ul>
-                        <li>Hashing</li>
+                        <li><i>Hashing</i></li>
                         <ul>
                             <li><Link to="/algorithms/hashing/hash-table">Hash Tables</Link></li>
                         </ul>
-                        <li>Trees</li>
+                        <li><i>Trees</i></li>
                         <ul>
                             <li><Link to="/algorithms/trees/binary-tree">Binary Tree</Link></li>
                             <li><Link to="/algorithms/trees/binary-search-tree">Binary Search Tree (BST)</Link></li>
@@ -57,12 +57,12 @@ export default function Algorithms() {
                             <li><Link to="/algorithms/trees/red-black-tree">Red-Black Tree</Link></li>
                             <li><Link to="/algorithms/trees/b-tree">B-Tree</Link></li>
                         </ul>
-                        <li>Heaps</li>
+                        <li><i>Heaps</i></li>
                         <ul>
                             <li><Link to="/algorithms/heaps/min">Min Heap</Link></li>
                             <li><Link to="/algorithms/heaps/max">Max Heap</Link></li>
                         </ul>
-                        <li>Graphs</li>
+                        <li><i>Graphs</i></li>
                         <ul>
                             <li><Link to="/algorithms/graphs/directed-and-undirected">Directed & Undirected Graphs</Link></li>
                             <li><Link to="/algorithms/graphs/weighted-and-unweighted">Weighted & Unweighted Graphs</Link></li>
@@ -79,20 +79,20 @@ export default function Algorithms() {
 
                 <nav className="algorithms-links">
                     <ul>
-                        <li>Comparison-Based</li>
+                        <li><i>Comparison-Based</i></li>
                         <ul>
-                            <li>Bubble Sort</li>
-                            <li>Selection Sort</li>
-                            <li>Insertion Sort</li>
-                            <li>Merge Sort</li>
-                            <li>Quick Sort</li>
+                            <li><Link to="/algorithms/sorting/bubble-sort">Bubble Sort</Link></li>
+                            <li><Link to="/algorithms/sorting/selection-sort">Selection Sort</Link></li>
+                            <li><Link to="/algorithms/sorting/insertion-sort">Insertion Sort</Link></li>
+                            <li><Link to="/algorithms/sorting/merge-sort">Merge Sort</Link></li>
+                            <li><Link to="/algorithms/sorting/quick-sort">Quick Sort</Link></li>
                         </ul>
 
-                        <li>Non-Comparison-Based</li>
+                        <li><i>Non-Comparison-Based</i></li>
                         <ul>
-                            <li>Counting Sort</li>
-                            <li>Radix Sort</li>
-                            <li>Bucket Sort</li>
+                            <li><Link to="/algorithms/sorting/counting-sort">Counting Sort</Link></li>
+                            <li><Link to="/algorithms/sorting/radix-sort">Radix Sort</Link></li>
+                            <li><Link to="/algorithms/sorting/bucket-sort">Bucket Sort</Link></li>
                         </ul>
                     </ul>
                 </nav>
@@ -106,9 +106,9 @@ export default function Algorithms() {
 
                 <nav className="algorithms-links">
                     <ul>
-                        <li>Linear Search</li>
-                        <li>Binary Search</li>
-                        <li>N-ary Search</li>
+                        <li><Link to="/algorithms/searching/linear-search">Linear Search</Link></li>
+                        <li><Link to="/algorithms/searching/binary-search">Binary Search</Link></li>
+                        <li><Link to="/algorithms/searching/n-ary-search">N-ary Search</Link></li>
                     </ul>
                 </nav>
             </div>
@@ -121,20 +121,20 @@ export default function Algorithms() {
 
                 <nav className="algorithms-links">
                     <ul>
-                        <li>Graph Traversal</li>
+                        <li><i>Graph Traversal</i></li>
                         <ul>
-                            <li>Depth-First Search (DFS)</li>
-                            <li>Breadth-First Search (BFS)</li>
+                            <li><Link to="/algorithms/graphs/depth-first-search">Depth-First Search (DFS)</Link></li>
+                            <li><Link to="/algorithms/graphs/breadth-first-search">Depth-First Search (BFS)</Link></li>
                         </ul>
-                        <li>Shortest Path Algorithms</li>
+                        <li><i>Shortest Path Algorithms</i></li>
                         <ul>
-                            <li>A* Algorithm</li>
-                            <li>Dijkstra's Algorithm</li>
+                            <li><Link to="/algorithms/graphs/a-star">A* Algorithm</Link></li>
+                            <li><Link to="/algorithms/graphs/dijkstra">Dijkstra's Algorithm</Link></li>
                         </ul>
-                        <li>Minimum Spanning Tree Algorithms</li>
+                        <li><i>Minimum Spanning Tree Algorithms</i></li>
                         <ul>
-                            <li>Prim's Algorithm</li>
-                            <li>Kruskal's Algorithm</li>
+                            <li><Link to="/algorithms/graphs/prim">Prim's Algorithm</Link></li>
+                            <li><Link to="/algorithms/graphs/kruskal">Kruskal's Algorithm</Link></li>
                         </ul>
                     </ul>
                 </nav>
@@ -148,11 +148,11 @@ export default function Algorithms() {
 
                 <nav className="algorithms-links">
                     <ul>
-                        <li>Factorial Calculation</li>
-                        <li>Fibonacci Sequence</li>
+                        <li><Link to="/algorithms/recursive/factorial">Factorial Calculation</Link></li>
+                        <li><Link to="/algorithms/recursive/fibonacci">Fibonacci Sequence</Link></li>
                     </ul>
                 </nav>
             </div>
         </div>
-);
+    );
 }
