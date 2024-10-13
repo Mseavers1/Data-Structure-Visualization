@@ -1,26 +1,26 @@
 :root {
-    --header-size: 77px;
 
-    /* Ensure that these two colors are contrasting */
-    --primary-color: rgb(255, 191, 71); /* determines color of header background and card glow */
-    --header-text-color: black; /* determines color of header text */
+    --primary-color: #b01e24;
+    --header-text-color: white;
 }
 
 header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
     flex:0;
-    text-align: center;
     background-color: var(--primary-color);
-    height: var(--header-size);
     color: var(--header-text-color);
-    padding: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 footer {
     text-align: center;
     background-color: var(--primary-color);
     position: relative;
-    padding: 10px;
     bottom: 0;
+    color: var(--header-text-color);
 }
 
 main {
@@ -36,12 +36,12 @@ html, body {
     background-color: white;
 }
 
-.routes {
-    font-size: 20px;
-}
-
-.title {
-
+.footer {
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
 }
 
 .app-div {
@@ -49,4 +49,88 @@ html, body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.routes {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.logo {
+    margin-right: 30px;
+    height: 60px;
+    width: auto;
+}
+
+.routes a {
+    text-decoration: none;
+    padding: 20px 15px;
+    color: var(--header-text-color);
+    border-radius: 5px;
+    font-size: 20px;
+    transition: color 0.1s ease;
+}
+
+.routes a:hover {
+    color: #000000;
+}
+
+.routes a.active {
+    color: white;
+}
+
+.title {
+
+}
+
+.hamburger {
+    cursor: pointer;
+    color: var(--header-text-color);
+    font-size: 40px;
+    margin-left: 30px;
+}
+
+.algorithms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.algorithms-title {
+    text-align: center;
+}
+
+.algorithms-section {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 250px;
+}
+
+.algorithms-links a {
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+    transition: color 0.1s ease;
+}
+
+.algorithms-links a:hover {
+    color: red;
 }
