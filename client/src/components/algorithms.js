@@ -124,7 +124,7 @@ export default function Algorithms() {
                         <li><i>Graph Traversal</i></li>
                         <ul>
                             <li><Link to="/algorithms/graphs/depth-first-search">Depth-First Search (DFS)</Link></li>
-                            <li><Link to="/algorithms/graphs/breadth-first-search">Depth-First Search (BFS)</Link></li>
+                            <li><Link to="/algorithms/graphs/breadth-first-search">Breadth-First Search (BFS)</Link></li>
                         </ul>
                         <li><i>Shortest Path Algorithms</i></li>
                         <ul>
