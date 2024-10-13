@@ -1,6 +1,7 @@
 :root {
 
     --primary-color: #b01e24;
+    --secondary-color: #ec9296;
     --header-text-color: white;
 }
 
@@ -172,18 +173,23 @@ li {
     display: flex;
     flex-direction: column;
     height: calc(100vh - 50px - 98px);
+    overflow: hidden;
 }
 
 .animations-header {
-    background-color: blue;
+    background-color: var(--secondary-color);
     height: 50px;
     width: 100%;
     text-align: center;
     line-height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
 }
 
 .animations-footer {
-    background-color: blue;
+    background-color: var(--secondary-color);
     height: 50px;
     width: 100%;
     text-align: center;
