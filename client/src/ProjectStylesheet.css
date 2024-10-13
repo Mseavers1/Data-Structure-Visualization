@@ -25,7 +25,6 @@ footer {
 
 main {
     flex-grow: 1;
-    padding: 20px;
 }
 
 html, body {
@@ -38,6 +37,11 @@ html, body {
 
 li {
     margin-bottom: 5px;
+}
+
+.about {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .footer {
@@ -162,4 +166,31 @@ li {
 
 .algorithms-links a:hover {
     color: red;
+}
+
+.animations {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 50px - 98px);
+}
+
+.animations-header {
+    background-color: blue;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    line-height: 50px;
+}
+
+.animations-footer {
+    background-color: blue;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    line-height: 50px;
+}
+
+.animations-main {
+    flex-grow: 1;
+    overflow: auto;
 }

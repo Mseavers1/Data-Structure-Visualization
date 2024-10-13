@@ -5,50 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="700caeda-9d7d-400c-93e1-8d9f6503d76d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/graphs/a_star.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/graphs/bfs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/graphs/dfs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/graphs/dijkstra.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/graphs/directed_undirected.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/graphs/kruskal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/graphs/prim.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/graphs/weighted_unweighted.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/hashing/hash_table.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/heaps/max_heap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/heaps/min_heap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/lists/array_list.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/lists/circular_linked_list.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/lists/double_linked_list.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/lists/linked_list.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/queues/array_queue.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/queues/circular_queue.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/queues/deque.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/queues/linked_queue.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/queues/priority_queue.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/recursive/factorial.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/recursive/fibonacci.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/searching/binary_search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/searching/linear_search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/searching/n_ary_search.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/sorting/bubble_sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/sorting/bucket_sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/sorting/counting_sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/sorting/insertion_sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/sorting/merge_sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/sorting/quick_sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/sorting/radix_sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/sorting/selection_sort.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/stacks/array_stack.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/stacks/linked_stack.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/trees/avl_tree.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/trees/b_tree.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/trees/binary_search_tree.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/trees/binary_tree.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/algorithms/trees/red_black_tree.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/algorithms.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/algorithms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/algorithms/Arrays.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/algorithms/arrays.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/ProjectStylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/ProjectStylesheet.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/about.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/about.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/algorithms/arrays.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/algorithms/arrays.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +84,7 @@
       <workItem from="1728157986651" duration="7874000" />
       <workItem from="1728335911122" duration="611000" />
       <workItem from="1728444415122" duration="5633000" />
-      <workItem from="1728587100959" duration="43215000" />
+      <workItem from="1728587100959" duration="50341000" />
     </task>
     <servers />
   </component>
