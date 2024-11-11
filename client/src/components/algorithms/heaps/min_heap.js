@@ -1,10 +1,9 @@
 export const MinHeap = {
 
     heap: [],
+    canvasRef: null,
 
     add(value) {
-
-        alert(this.heap)
 
         const val = parseFloat(value)
 
@@ -12,12 +11,10 @@ export const MinHeap = {
 
         this.heapify_up();
 
-        alert(this.heap)
+        this.drawHeap();
     },
 
     remove(value) {
-
-        alert(this.heap)
 
         const val = parseFloat(value)
 
@@ -48,12 +45,13 @@ export const MinHeap = {
         // Heapify
         this.heapify_down();
 
-        alert(this.heap)
+        this.drawHeap();
 
     },
 
     clear() {
-        alert("Clear")
+        this.heap = []
+        this.drawHeap();
     },
 
     heapify_up() {
@@ -100,5 +98,74 @@ export const MinHeap = {
             curIndex = smallest;
         }
 
+    },
+
+    setCanvasRef(canvasRef) {
+        this.canvasRef = canvasRef;
+    },
+
+    // Helper function to draw the heap on canvas
+    drawHeap() {
+        if (!this.canvasRef) return;
+
+        const canvas = this.canvasRef;
+        const ctx = canvas.getContext('2d');
+
+        const levelHeight = 80;  // Vertical space between levels
+        const nodeRadius = 20;   // Radius of each node
+        const horizontalSpacing = 100;  // Horizontal space between nodes
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+        // Draw a line between two points
+        const drawLine = (x1, y1, x2, y2) => {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        };
+
+        // Draw a single node
+        const drawNode = (x, y, value) => {
+            ctx.beginPath();
+            ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
+            ctx.fillStyle = 'lightblue';
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = 'black';
+            ctx.fillText(value, x - nodeRadius / 2, y + 5);
+        };
+
+        // Helper function to recursively draw the tree
+        const drawTree = (index, x, y, level) => {
+            if (index >= this.heap.length) return;
+
+            // Draw lines (edges) first, then draw nodes (circles) on top
+            const leftChildIndex = 2 * index + 1;
+            const rightChildIndex = 2 * index + 2;
+
+            if (leftChildIndex < this.heap.length) {
+                const leftX = x - horizontalSpacing / Math.pow(2, level);
+                const leftY = y + levelHeight;
+                drawLine(x, y, leftX, leftY); // Draw line first
+                drawTree(leftChildIndex, leftX, leftY, level + 1);
+            }
+
+            if (rightChildIndex < this.heap.length) {
+                const rightX = x + horizontalSpacing / Math.pow(2, level);
+                const rightY = y + levelHeight;
+                drawLine(x, y, rightX, rightY); // Draw line first
+                drawTree(rightChildIndex, rightX, rightY, level + 1);
+            }
+
+            // Now draw the node itself on top of the lines
+            drawNode(x, y, this.heap[index]);
+        };
+
+        // Draw the heap starting from the root (index 0)
+        if (this.heap.length > 0) {
+            drawTree(0, canvas.width / 2, 50, 1); // Start from top-center of the canvas
+        }
     }
+
 }
