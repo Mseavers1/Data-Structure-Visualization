@@ -7,7 +7,7 @@ import {MenuOutlined, CloseOutlined} from '@ant-design/icons';
 import About from "./components/about"
 import Algorithms from "./components/algorithms"
 import Credits from "./components/credits"
-import Arrays from "./components/algorithms/arrays"
+import {Arrays} from "./components/algorithms/arrays"
 import AStar from "./components/algorithms/graphs/a_star";
 import Bfs from "./components/algorithms/graphs/bfs";
 import Dfs from "./components/algorithms/graphs/dfs";
@@ -18,7 +18,7 @@ import Prim from "./components/algorithms/graphs/prim";
 import WeightedUnweighted from "./components/algorithms/graphs/weighted_unweighted";
 import HashTable from "./components/algorithms/hashing/hash_table";
 import MaxHeap from "./components/algorithms/heaps/max_heap";
-import MinHeap from "./components/algorithms/heaps/min_heap";
+import {MinHeap} from "./components/algorithms/heaps/min_heap";
 import ArrayList from "./components/algorithms/lists/array_list";
 import CircularQueue from "./components/algorithms/queues/circular_queue";
 import CircularLinkedList from "./components/algorithms/lists/circular_linked_list";
@@ -48,6 +48,7 @@ import BTree from "./components/algorithms/trees/b_tree";
 import BinarySearchTree from "./components/algorithms/trees/binary_search_tree";
 import BinaryTree from "./components/algorithms/trees/binary_tree";
 import RedBlackTree from "./components/algorithms/trees/red_black_tree";
+import Animation from "./components/animation"
 
 const App = () => {
 
@@ -84,7 +85,7 @@ const App = () => {
                         <Route path="/" element={<About/>}/>
                         <Route path="/algorithms" element={<Algorithms/>}/>
                         <Route path="/credits" element={<Credits />} />
-                        <Route path="/algorithms/arrays" element={<Arrays/>} />
+                        <Route path="/algorithms/arrays" element={<Animation algorithm={Arrays} />} />
                         <Route path="/algorithms/graphs/a-star" element={<AStar/>} />
                         <Route path="/algorithms/graphs/breadth-first-search" element={<Bfs/>} />
                         <Route path="/algorithms/graphs/depth-first-search" element={<Dfs/>} />
@@ -94,7 +95,7 @@ const App = () => {
                         <Route path="/algorithms/graphs/prim" element={<Prim/>} />
                         <Route path="/algorithms/graphs/weighted-and-unweighted" element={<WeightedUnweighted/>} />
                         <Route path="/algorithms/hashing/hash-table" element={<HashTable/>} />
-                        <Route path="/algorithms/heaps/min" element={<MinHeap/>} />
+                        <Route path="/algorithms/heaps/min" element={<Animation algorithm={MinHeap} />} />
                         <Route path="/algorithms/heaps/max" element={<MaxHeap/>} />
                         <Route path="/algorithms/lists/array" element={<ArrayList/>} />
                         <Route path="/algorithms/lists/linked" element={<CircularLinkedList/>} />
