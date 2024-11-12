@@ -13,6 +13,9 @@ export const MinHeap = {
 
         const val = parseFloat(value)
 
+        // If val is not a number but the heap is numbers & vise versa
+        if (typeof this.heap[0] === "number" && isNaN(val) || typeof this.heap[0] === "string" && !isNaN(val)) return;
+
         isNaN(val) ? this.heap.push(value) : this.heap.push(val)
 
         this.draw();
