@@ -14,6 +14,7 @@ export default function Animation({algorithm}) {
     const canvasRef = React.useRef(null);
 
     const [sliderValue, setSliderValue] = useState(50);
+    const [paused, setPaused] = useState(false);
 
     const handleSliderChange = (event, newValue) => {
         setSliderValue(newValue);
@@ -56,6 +57,11 @@ export default function Animation({algorithm}) {
     function on_add_click() {
         algorithm.add(input)
         setInput('');
+    }
+
+    function pause_or_unpause() {
+        setPaused(!paused);
+        algorithm.pause_animation = paused;
     }
 
     function on_remove_click() {
@@ -140,6 +146,8 @@ export default function Animation({algorithm}) {
                         }}
                     />
                 </Box>
+
+                <Button variant="contained" onClick={pause_or_unpause}  sx={{ backgroundColor: '#b01e24', color: '#ffffff ', }}>{paused ? "Pause" : "Unpause"}</Button>
             </div>
         </div>
     );

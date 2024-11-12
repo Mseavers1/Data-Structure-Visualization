@@ -5,6 +5,7 @@ export const MinHeap = {
     max_size: 62,
     is_swapping: false,
     animation_speed: 200,
+    pause_animation: false,
 
     add(value) {
 
@@ -79,6 +80,12 @@ export const MinHeap = {
             };
 
             const animate = () => {
+
+                if (this.pause_animation) {
+                    requestAnimationFrame(animate);
+                    return;
+                }
+
                 // Update the steps if the animation speed has changed
                 calculateSteps();
 
@@ -166,7 +173,6 @@ export const MinHeap = {
 
         value === 0 ? this.animation_speed = 5000 : this.animation_speed = (y * value) + 500;
     },
-
 
     remove(value) {
 
