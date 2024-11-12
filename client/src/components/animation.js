@@ -35,6 +35,12 @@ export default function Animation({algorithm}) {
         }
     }, [algorithm]); // Only run this effect when algorithm changes
 
+    React.useEffect(() => {
+        if (algorithm && canvasRef.current) {
+            algorithm.clear()
+        }
+    }, [algorithm]);
+
     function on_add_click() {
         algorithm.add(input)
         setInput('');
@@ -65,6 +71,11 @@ export default function Animation({algorithm}) {
                         width: "120px",
                         backgroundColor: "#ffffff",
                         color: "#000",
+                    }}
+                    slotProps={{
+                        htmlInput: {
+                            maxLength: 5,
+                        },
                     }}
                 />
 

@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="700caeda-9d7d-400c-93e1-8d9f6503d76d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/algorithms/heaps/min_heap.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/algorithms/heaps/min_heap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/animation.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/animation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +66,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.23339.15" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-WS-242.23726.96" />
       </set>
     </attachedChunks>
   </component>
@@ -84,10 +86,23 @@
       <workItem from="1729028266789" duration="11280000" />
       <workItem from="1729309750080" duration="590000" />
       <workItem from="1729444838723" duration="857000" />
+      <workItem from="1731285730809" duration="17516000" />
+      <workItem from="1731341260032" duration="23215000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
