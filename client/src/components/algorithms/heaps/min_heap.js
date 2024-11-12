@@ -3,13 +3,13 @@ export const MinHeap = {
     heap: [],
     canvasRef: null,
     max_size: 63,
-    is_swapping: false,
+    is_animating: false,
     animation_speed: 200,
     pause_animation: false,
 
     add(value) {
 
-        if (this.heap.length > this.max_size || value === "") return;
+        if (this.heap.length > this.max_size || value === "" || this.is_animating) return;
 
         const val = parseFloat(value)
 
@@ -83,7 +83,7 @@ export const MinHeap = {
 
     animateSwap(index1, index2) {
         return new Promise((resolve) => {
-            this.is_swapping = true;
+            this.is_animating = true;
 
             const padding = 2;
             const boxWidth  = this.canvasRef.width - 20;
@@ -217,7 +217,7 @@ export const MinHeap = {
                 } else {
                     drawNode(ctx, index2Pos.x, index2Pos.y, index1Value);
                     drawNode(ctx, index1Pos.x, index1Pos.y, index2Value);
-                    this.is_swapping = false;
+                    this.is_animating = false;
                     resolve();
                     this.draw();
                 }
@@ -237,7 +237,7 @@ export const MinHeap = {
 
     remove(value) {
 
-        if (this.heap.length <= 0 || value === "") return;
+        if (this.heap.length <= 0 || value === "" || this.is_animating) return;
 
         const val = parseFloat(value)
 
@@ -272,6 +272,9 @@ export const MinHeap = {
     },
 
     clear() {
+
+        if (this.is_animating) return;
+
         this.heap = []
         this.draw();
     },
