@@ -20,6 +20,13 @@ export default function Animation({algorithm}) {
 
     const [anchorEl, setAnchorEl] = useState(null);
 
+    React.useEffect(() => {
+        algorithm.set_animation_speed(sliderValue);
+        setPaused(false);
+        algorithm.pause_animation = false;
+    }, []);
+
+
     // Open the popover when the button is clicked
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -81,6 +88,7 @@ export default function Animation({algorithm}) {
         if (canvasRef.current) {
             algorithm.setCanvasRef(canvasRef.current); // Link the canvas to MinHeap
         }
+
     }, [algorithm]); // Only run this effect when algorithm changes
 
     React.useEffect(() => {
@@ -95,8 +103,11 @@ export default function Animation({algorithm}) {
     }
 
     function pause_or_unpause() {
-        setPaused(!paused);
-        algorithm.pause_animation = paused;
+        setPaused((prevPaused) => {
+            const newPaused = !prevPaused;
+            algorithm.pause_animation = newPaused; // Update pause_animation based on new state
+            return newPaused;
+        });
     }
 
     function on_remove_click() {
@@ -132,15 +143,15 @@ export default function Animation({algorithm}) {
                     }}
                 />
 
-                <Button variant="contained" onClick={on_add_click}
+                <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_add_click}
                         sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Add</Button>
-                <Button variant="contained" onClick={on_remove_click}
+                <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_remove_click}
                         sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Delete</Button>
-                <Button variant="contained" onClick={on_clear_click}
+                <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_clear_click}
                         sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Clear</Button>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Button variant="contained" onClick={handleClick} sx={{backgroundColor: '#b01e24', color: '#ffffff ',}}>
+                    <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={handleClick} sx={{backgroundColor: '#b01e24', color: '#ffffff ',}}>
                         Randomize
                     </Button>
 
@@ -227,7 +238,7 @@ export default function Animation({algorithm}) {
                         aria-labelledby="slider"
                         valueLabelDisplay="auto"
                         valueLabelFormat={(sliderValue) => {
-                            if (sliderValue === 100) return 'Instant';
+                            if (sliderValue === 100) return 'Sloth';
                             else if (sliderValue >= 66 && sliderValue < 100) return 'Fast';
                             else if (sliderValue >= 33 && sliderValue < 66) return 'Normal';
                             else if (sliderValue > 0 && sliderValue < 33) return 'Slow';
@@ -257,7 +268,7 @@ export default function Animation({algorithm}) {
                     />
                 </Box>
 
-                <Button variant="contained" onClick={pause_or_unpause}  sx={{ backgroundColor: '#b01e24', color: '#ffffff ', }}>{paused ? "Pause" : "Unpause"}</Button>
+                <Button variant="contained" onClick={pause_or_unpause}  sx={{ backgroundColor: '#b01e24', color: '#ffffff ', }}>{paused ? "Unpause" : "Pause"}</Button>
             </div>
         </div>
     );

@@ -71,7 +71,6 @@ const App = () => {
                         <nav className="routes">
                             <Link to="/">About</Link>
                             <Link to="/algorithms"> Algorithms </Link>
-                            <Link to="/credits"> Credits </Link>
                         </nav>
 
                         <div className="hamburger" onClick={toggleMenu}>

@@ -49,7 +49,7 @@ export default function About() {
             </h1>
 
             <p>
-                Steps go here
+
             </p>
 
         </div>

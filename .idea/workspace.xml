@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="700caeda-9d7d-400c-93e1-8d9f6503d76d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/about.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/about.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/algorithms/heaps/min_heap.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/algorithms/heaps/min_heap.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/animation.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/animation.js" afterDir="false" />
     </list>
@@ -88,7 +90,7 @@
       <workItem from="1729444838723" duration="857000" />
       <workItem from="1731285730809" duration="17516000" />
       <workItem from="1731341260032" duration="47288000" />
-      <workItem from="1731397502319" duration="2716000" />
+      <workItem from="1731397502319" duration="6509000" />
     </task>
     <servers />
   </component>

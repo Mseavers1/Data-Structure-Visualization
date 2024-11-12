@@ -9,7 +9,7 @@ export const MinHeap = {
 
     add(value) {
 
-        if (this.heap.length > this.max_size || value === "" || this.is_animating) return;
+        if (this.heap.length > this.max_size - 1 || value === "" || this.is_animating) return;
 
         const val = parseFloat(value)
 
@@ -53,6 +53,8 @@ export const MinHeap = {
 
 
     randomize(isNumber, N) {
+
+        if (this.is_animating) return;
 
         this.clear();
 
@@ -153,8 +155,9 @@ export const MinHeap = {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 this.draw();
 
-                drawNode(ctx, index1Pos.x, index1Pos.y, "", "#D7EBD7");
-                drawNode(ctx, index2Pos.x, index2Pos.y, "", "#D7EBD7");
+                // Draw the nodes with the space string
+                drawNode(ctx, index1Pos.x, index1Pos.y, index1Value, "#D7EBD7", true);
+                drawNode(ctx, index2Pos.x, index2Pos.y, index2Value, "#D7EBD7", true);
 
                 drawNode(ctx, x1, y1, index1Value, "#FFD700");
                 drawNode(ctx, x2, y2, index2Value, "#FFD700");
@@ -402,7 +405,7 @@ export const MinHeap = {
 }
 
 // Draw a single node
-const drawNode = (ctx, x, y, value, color="#A4D1A7") => {
+const drawNode = (ctx, x, y, value, color="#A4D1A7", text_clear = false) => {
     // Start with a base font size
     let fontSize = 20;
     ctx.font = `${fontSize}px Arial`;
@@ -437,7 +440,8 @@ const drawNode = (ctx, x, y, value, color="#A4D1A7") => {
 
     // Draw the text, centered within the circle
     ctx.fillStyle = 'black';
-    ctx.fillText(value, x, y);
+
+    if (!text_clear) ctx.fillText(value, x, y);
 };
 
 // Draw a line between two points
