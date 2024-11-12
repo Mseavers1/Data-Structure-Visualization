@@ -190,7 +190,7 @@ li {
 
 .animations-footer {
     background-color: var(--secondary-color);
-    height: 50px;
+    height: 80px;
     width: 100%;
     text-align: center;
     line-height: 50px;
@@ -199,4 +199,9 @@ li {
 .animations-main {
     flex-grow: 1;
     overflow: hidden;
+}
+
+.speed-slider {
+    padding-left: 30px;
+    padding-top: 10px;
 }

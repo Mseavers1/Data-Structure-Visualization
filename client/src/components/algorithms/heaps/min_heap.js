@@ -4,6 +4,7 @@ export const MinHeap = {
     canvasRef: null,
     max_size: 62,
     is_swapping: false,
+    animation_speed: 200,
 
     add(value) {
 
@@ -32,18 +33,13 @@ export const MinHeap = {
             const getNodePosition = (index, x = this.canvasRef.width / 2, y = 120) => {
                 const levelHeight = 80;
                 const horizontalSpacing = 1000;
-                const level = Math.floor(Math.log2(index + 1))
+                const level = Math.floor(Math.log2(index + 1));
 
-                // Base case for root node
                 if (index === 0) return { x, y };
 
-                // Calculate the parent index
                 const parentIndex = Math.floor((index - 1) / 2);
-
-                // Recursively get the position of the parent node
                 const parentPos = getNodePosition(parentIndex, x, y);
 
-                // Calculate the new x, y positions for the current node
                 const newX = parentPos.x + (index % 2 === 1 ? -horizontalSpacing / Math.pow(2, level) : horizontalSpacing / Math.pow(2, level));
                 const newY = parentPos.y + levelHeight;
 
@@ -64,53 +60,52 @@ export const MinHeap = {
             let x1 = index1Pos.x, y1 = index1Pos.y;
             let x2 = index2Pos.x, y2 = index2Pos.y;
 
-            const arraySlot1X = 10 + index1 * (slotWidth + padding); // Start position of index1 in array
-            const arraySlot2X = 10 + index2 * (slotWidth + padding); // Start position of index2 in array
+            const arraySlot1X = 10 + index1 * (slotWidth + padding);
+            const arraySlot2X = 10 + index2 * (slotWidth + padding);
 
             let arrayX1 = arraySlot1X;
             let arrayX2 = arraySlot2X;
 
-            const speed = 200;
+            let stepX1, stepY1, stepX2, stepY2, stepArrayX1, stepArrayX2;
 
-            const stepX1 = (index2Pos.x - index1Pos.x) / speed;
-            const stepY1 = (index2Pos.y - index1Pos.y) / speed;
-            const stepX2 = (index1Pos.x - index2Pos.x) / speed;
-            const stepY2 = (index1Pos.y - index2Pos.y) / speed;
+            const calculateSteps = () => {
+                stepX1 = (index2Pos.x - index1Pos.x) / this.animation_speed;
+                stepY1 = (index2Pos.y - index1Pos.y) / this.animation_speed;
+                stepX2 = (index1Pos.x - index2Pos.x) / this.animation_speed;
+                stepY2 = (index1Pos.y - index2Pos.y) / this.animation_speed;
 
-            const stepArrayX1 = (arraySlot2X - arraySlot1X) / speed;
-            const stepArrayX2 = (arraySlot1X - arraySlot2X) / speed;
+                stepArrayX1 = (arraySlot2X - arraySlot1X) / this.animation_speed;
+                stepArrayX2 = (arraySlot1X - arraySlot2X) / this.animation_speed;
+            };
 
             const animate = () => {
+                // Update the steps if the animation speed has changed
+                calculateSteps();
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 this.draw();
 
-                // Draw nodes for swap animation in tree
-                drawNode(ctx, index1Pos.x, index1Pos.y, "");
-                drawNode(ctx, index2Pos.x, index2Pos.y, "");
+                drawNode(ctx, index1Pos.x, index1Pos.y, "", "#D7EBD7");
+                drawNode(ctx, index2Pos.x, index2Pos.y, "", "#D7EBD7");
 
-                drawNode(ctx, x1, y1, index1Value);
-                drawNode(ctx, x2, y2, index2Value);
+                drawNode(ctx, x1, y1, index1Value, "#FFD700");
+                drawNode(ctx, x2, y2, index2Value, "#FFD700");
 
-                // Draw the values in array slots
                 this.drawArray();
 
-                // Background color for empty slots
                 ctx.fillStyle = '#f0f0f0';
                 ctx.fillRect(arraySlot1X, yPosition, slotWidth, boxHeight);
                 ctx.fillRect(arraySlot2X, yPosition, slotWidth, boxHeight);
 
-                // Instead of clearing the index text with a white box, just clear the array slot area.
                 ctx.fillStyle = '#f0f0f0';
                 ctx.fillRect(arraySlot1X, yPosition, slotWidth, boxHeight);
                 ctx.fillRect(arraySlot2X, yPosition, slotWidth, boxHeight);
 
-                // Highlight the swapping array slots with red borders (instead of the index itself)
                 ctx.strokeStyle = 'red';
                 ctx.lineWidth = 2;
-                ctx.strokeRect(arraySlot1X, yPosition, slotWidth, boxHeight);  // Draw red border around array slot 1
-                ctx.strokeRect(arraySlot2X, yPosition, slotWidth, boxHeight);  // Draw red border around array slot 2
+                ctx.strokeRect(arraySlot1X, yPosition, slotWidth, boxHeight);
+                ctx.strokeRect(arraySlot2X, yPosition, slotWidth, boxHeight);
 
-                // Draw the moving values in the array slots
                 ctx.fillStyle = 'red';
                 ctx.fillText(index1Value, arrayX1 + slotWidth / 2, yPosition + boxHeight / 2);
                 ctx.fillText(index2Value, arrayX2 + slotWidth / 2, yPosition + boxHeight / 2);
@@ -118,46 +113,58 @@ export const MinHeap = {
                 const xPosition1 = 10 + index1 * (slotWidth + padding);
                 const xPosition2 = 10 + index2 * (slotWidth + padding);
 
-                // Clear the indexes
                 ctx.fillStyle = 'white';
                 ctx.fillRect(xPosition1, yPosition + indexYOffset - 10, slotWidth, 12);
                 ctx.fillRect(xPosition2, yPosition + indexYOffset - 10, slotWidth, 12);
 
-                // Set Indexes color
                 ctx.fillStyle = 'red';
                 ctx.fillText(index1, xPosition1 + slotWidth / 2, yPosition + indexYOffset);
                 ctx.fillText(index2, xPosition2 + slotWidth / 2, yPosition + indexYOffset);
 
-                x1 += stepX1;
-                y1 += stepY1;
-                x2 += stepX2;
-                y2 += stepY2;
+                let hasReachedTarget1 = Math.abs(x1 - index2Pos.x) < Math.abs(stepX1) && Math.abs(y1 - index2Pos.y) <= Math.abs(stepY1);
+                let hasReachedTarget2 = Math.abs(x2 - index1Pos.x) < Math.abs(stepX2) && Math.abs(y2 - index1Pos.y) <= Math.abs(stepY2);
 
-                arrayX1 += stepArrayX1;
-                arrayX2 += stepArrayX2;
+                if (!hasReachedTarget2) {
+                    x1 += stepX1;
+                    y1 += stepY1;
+                }
 
-                const hasReachedTarget1 = Math.abs(x1 - index2Pos.x) < Math.abs(stepX1) && Math.abs(y1 - index2Pos.y) < Math.abs(stepY1);
-                const hasReachedTarget2 = Math.abs(x2 - index1Pos.x) < Math.abs(stepX2) && Math.abs(y2 - index1Pos.y) < Math.abs(stepY2);
+                if (!hasReachedTarget1) {
+                    x2 += stepX2;
+                    y2 += stepY2;
+                }
 
-                const hasReachedArrayTarget1 = Math.abs(arrayX1 - arraySlot2X) < Math.abs(stepArrayX1);
-                const hasReachedArrayTarget2 = Math.abs(arrayX2 - arraySlot1X) < Math.abs(stepArrayX2);
+                let hasReachedArrayTarget1 = Math.abs(arrayX1 - arraySlot2X) < Math.abs(stepArrayX1);
+                let hasReachedArrayTarget2 = Math.abs(arrayX2 - arraySlot1X) < Math.abs(stepArrayX2);
+
+                if (!hasReachedArrayTarget2) {
+                    arrayX2 += stepArrayX2;
+                }
+                if (!hasReachedArrayTarget1) {
+                    arrayX1 += stepArrayX1;
+                }
 
                 if (!hasReachedTarget1 || !hasReachedTarget2 || !hasReachedArrayTarget1 || !hasReachedArrayTarget2) {
                     requestAnimationFrame(animate);
                 } else {
-                    // Final position adjustments
                     drawNode(ctx, index2Pos.x, index2Pos.y, index1Value);
                     drawNode(ctx, index1Pos.x, index1Pos.y, index2Value);
-
-                    // Complete the swap and resolve the promise
                     this.is_swapping = false;
                     resolve();
-                    this.draw()
+                    this.draw();
                 }
             };
 
+            calculateSteps();
             animate();
         });
+    },
+
+    set_animation_speed(value) {
+
+        const y = (1 - 500) / 100;
+
+        value === 0 ? this.animation_speed = 5000 : this.animation_speed = (y * value) + 500;
     },
 
 
@@ -325,7 +332,7 @@ export const MinHeap = {
 }
 
 // Draw a single node
-const drawNode = (ctx, x, y, value) => {
+const drawNode = (ctx, x, y, value, color="#A4D1A7") => {
     // Start with a base font size
     let fontSize = 20;
     ctx.font = `${fontSize}px Arial`;
@@ -354,7 +361,7 @@ const drawNode = (ctx, x, y, value) => {
     // Draw the circle with adjusted radius
     ctx.beginPath();
     ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
-    ctx.fillStyle = '#A4D1A7';
+    ctx.fillStyle = color;
     ctx.fill();
     ctx.stroke();
 

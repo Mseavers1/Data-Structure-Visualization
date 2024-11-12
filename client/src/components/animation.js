@@ -1,12 +1,24 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import {Slider, Typography} from "@mui/material";  // Use MUI Slider only
+import {Box} from "@mui/material";
+import {useEffect, useState} from "react";
+
+
 
 
 export default function Animation({algorithm}) {
 
     const [input, setInput] = React.useState('');
     const canvasRef = React.useRef(null);
+
+    const [sliderValue, setSliderValue] = useState(50);
+
+    const handleSliderChange = (event, newValue) => {
+        setSliderValue(newValue);
+        algorithm.set_animation_speed(newValue);
+    };
 
     // Set the canvas size to the window size
     const setCanvasSize = () => {
@@ -91,7 +103,43 @@ export default function Animation({algorithm}) {
 
 
             <div className="animations-footer">
-
+                <Box sx={{ width: 300 }} className="speed-slider">
+                    <Typography gutterBottom>Animation Speed</Typography>
+                    <Slider
+                        value={sliderValue}
+                        onChange={handleSliderChange}
+                        aria-labelledby="slider"
+                        valueLabelDisplay="auto"
+                        valueLabelFormat={(sliderValue) => {
+                            if (sliderValue === 100) return 'Instant';
+                            else if (sliderValue >= 66 && sliderValue < 100) return 'Fast';
+                            else if (sliderValue >= 33 && sliderValue < 66) return 'Normal';
+                            else if (sliderValue > 0 && sliderValue < 33) return 'Slow';
+                            else return 'Pause';
+                        }}
+                        min={0}
+                        max={100}
+                        sx={{
+                            '& .MuiSlider-rail': {
+                                opacity: 1,
+                                backgroundColor: 'gray',
+                                height: 8, // Makes the rail thicker
+                            },
+                            '& .MuiSlider-track': {
+                                backgroundColor: '#b01e24', // Change color of the track
+                                height: 8, // Makes the track thicker
+                            },
+                            '& .MuiSlider-thumb': {
+                                backgroundColor: 'black', // Customize the thumb color
+                                width: 24, // Thumb size
+                                height: 24,
+                                '&:hover': {
+                                    backgroundColor: 'green', // Hover effect on thumb
+                                },
+                            },
+                        }}
+                    />
+                </Box>
             </div>
         </div>
     );
