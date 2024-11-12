@@ -73,9 +73,9 @@ const App = () => {
                             <Link to="/algorithms"> Algorithms </Link>
                         </nav>
 
-                        <div className="hamburger" onClick={toggleMenu}>
+                        {/*<div className="hamburger" onClick={toggleMenu}>
                             {isMenuOpen ? <CloseOutlined/> : <MenuOutlined />}
-                        </div>
+                        </div> */}
                     </div>
                 </header>
 
