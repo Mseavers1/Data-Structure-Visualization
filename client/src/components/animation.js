@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import {Slider, Typography} from "@mui/material";  // Use MUI Slider only
+import {FormControl, FormControlLabel, FormLabel, RadioGroup, Slider, Typography} from "@mui/material";
 import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
-
-
+import Popover from "@mui/material/Popover";
+import {Radio} from '@mui/material';
 
 
 export default function Animation({algorithm}) {
@@ -15,6 +15,41 @@ export default function Animation({algorithm}) {
 
     const [sliderValue, setSliderValue] = useState(50);
     const [paused, setPaused] = useState(false);
+    const [randomN, setRandomN] = useState(10);
+    const [selectedOption, setSelectedOption] = useState('number');
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    // Open the popover when the button is clicked
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const onRandomizedClick = () => {
+        handleClose()
+
+        algorithm.randomize(selectedOption === 'number', randomN);
+    }
+
+    const handleRandomChange = (event) => {
+        const value = event.target.value;
+        if (/^\d*$/.test(value) && value > 0 && value <= 63) { // Only allows digits & from 1 to 62
+            setRandomN(value);
+        }
+    };
+
+    const handleRadioChange = (event) => {
+        setSelectedOption(event.target.value); // Update the selected radio option
+    };
+
+
+    // Close the popover when clicking outside
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    // Determine if the popover is open
+    const open = Boolean(anchorEl);
 
     const handleSliderChange = (event, newValue) => {
         setSliderValue(newValue);
@@ -83,23 +118,98 @@ export default function Animation({algorithm}) {
                     type="search"
                     variant="filled"
                     value={input}
-                    onChange={(event) => setInput(event.target.value)}
+                    onChange={(event) => setInput (event.target.value)}
                     sx={{
-                        scale: "90%",
-                        width: "120px",
-                        backgroundColor: "#ffffff",
-                        color: "#000",
+                        scale : "90%",
+                        width : "120px",
+                        backgroundColor : "#ffffff",
+                        color : "#000",
                     }}
                     slotProps={{
-                        htmlInput: {
-                            maxLength: 5,
+                        htmlInput : {
+                            maxLength : 5,
                         },
                     }}
                 />
 
-                <Button variant="contained" onClick={on_add_click}  sx={{ backgroundColor: '#b01e24', color: '#ffffff ', }}>Add</Button>
-                <Button variant="contained" onClick={on_remove_click} sx={{ backgroundColor: '#b01e24', color: '#ffffff ', }}>Delete</Button>
-                <Button variant="contained" onClick={on_clear_click} sx={{ backgroundColor: '#b01e24', color: '#ffffff ', }}>Clear</Button>
+                <Button variant="contained" onClick={on_add_click}
+                        sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Add</Button>
+                <Button variant="contained" onClick={on_remove_click}
+                        sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Delete</Button>
+                <Button variant="contained" onClick={on_clear_click}
+                        sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Clear</Button>
+
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Button variant="contained" onClick={handleClick} sx={{backgroundColor: '#b01e24', color: '#ffffff ',}}>
+                        Randomize
+                    </Button>
+
+                    <Popover
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column', // Stack elements vertically
+                                justifyContent: 'flex-start', // Align content to the top
+                                alignItems: 'center',
+                                width: 250, // Adjust the width of the Popover container
+                                padding: '10px',
+                            }}
+                        >
+                            {/* TextField for Number Input */}
+                            <TextField
+                                label="Number Input"
+                                type="number"
+                                variant="filled"
+                                sx={{
+                                    backgroundColor: "#ffffff",
+                                    width: '100%', // Takes full width of the parent Box
+                                    marginBottom: '10px', // Add some space below
+                                }}
+                                value={randomN} // Bind this to your state for handling the input
+                                onChange={handleRandomChange} // Handle input changes
+                            />
+
+                            {/* Radio Buttons */}
+                            <Box sx={{ marginBottom: '10px' }}>
+                                <FormControl>
+                                    <RadioGroup
+                                        value={selectedOption} // This should be controlled state for radio button selection
+                                        onChange={handleRadioChange} // Handle change event for radio buttons
+                                        row
+                                    >
+                                        <FormControlLabel value="number" control={<Radio />} label="Numbers" />
+                                        <FormControlLabel value="string" control={<Radio />} label="Strings" />
+                                    </RadioGroup>
+                                </FormControl>
+                            </Box>
+
+                            {/* Button */}
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: '#b01e24',
+                                    color: '#ffffff',
+                                    width: '100%'
+                                }}
+                                onClick={onRandomizedClick} // Handle the button click
+                            >
+                                Randomize
+                            </Button>
+                        </Box>
+                    </Popover>
+                </Box>
             </div>
 
 
@@ -109,7 +219,7 @@ export default function Animation({algorithm}) {
 
 
             <div className="animations-footer">
-                <Box sx={{ width: 300 }} className="speed-slider">
+                <Box sx={{width : 300}} className="speed-slider">
                     <Typography gutterBottom>Animation Speed</Typography>
                     <Slider
                         value={sliderValue}

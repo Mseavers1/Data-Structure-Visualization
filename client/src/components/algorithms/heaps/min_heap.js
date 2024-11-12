@@ -2,7 +2,7 @@ export const MinHeap = {
 
     heap: [],
     canvasRef: null,
-    max_size: 62,
+    max_size: 63,
     is_swapping: false,
     animation_speed: 200,
     pause_animation: false,
@@ -21,6 +21,64 @@ export const MinHeap = {
         this.draw();
 
         this.heapify_up ().then (r  =>  this.draw());
+    },
+
+    generateRandomNumber() {
+
+        let randomNumber = Math.random() * (99999 - -9999) + -9999;
+
+        const rand = Math.random() * 100;
+
+        // Don't keep Decimal
+        if (rand > 50){
+            randomNumber = Math.floor(randomNumber);
+        }
+
+        if (randomNumber.toString().length > 5) {
+            randomNumber = parseFloat(randomNumber.toString().slice(0, 5));
+        }
+
+        return randomNumber;
+    },
+
+    getRandomString(length) {
+        const characters = 'abcdefghijklmnopqrstuvwxyz'; // You can customize this to include numbers, uppercase letters, etc.
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            result += characters[randomIndex];
+        }
+        return result;
+    },
+
+
+    randomize(isNumber, N) {
+
+        this.clear();
+
+        // Randomizes the heap
+        if (isNumber) {
+
+            for (let i = 0; i < N; i++) {
+                this.heap.push(this.generateRandomNumber());
+            }
+        }
+        else
+        {
+            for (let i = 0; i < N; i++) {
+                this.heap.push(this.getRandomString(Math.floor(Math.random() * 5) + 1));
+            }
+        }
+
+        // Build Heap
+        this.draw()
+        this.buildHeap().then (r  => this.draw())
+    },
+
+    async buildHeap() {
+        for (let i = Math.floor(this.heap.length / 2) - 1; i >= 0; i--) {
+            await this.heapify_down(i).then(r => this.draw());
+        }
     },
 
     animateSwap(index1, index2) {
@@ -172,9 +230,9 @@ export const MinHeap = {
 
     set_animation_speed(value) {
 
-        const y = (1 - 500) / 100;
+        const y = (1 - 400) / 100;
 
-        value === 0 ? this.animation_speed = 5000 : this.animation_speed = (y * value) + 500;
+        value === 0 ? this.animation_speed = 5000 : this.animation_speed = (y * value) + 400;
     },
 
     remove(value) {
