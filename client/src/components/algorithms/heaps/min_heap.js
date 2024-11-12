@@ -22,24 +22,6 @@ export const MinHeap = {
         return new Promise((resolve) => {
             this.is_swapping = true;
 
-            // const leftChildIndex = 2 * index + 1;
-            //     const rightChildIndex = 2 * index + 2;
-            //
-            //     if (leftChildIndex < MinHeap.heap.length) {
-            //         const leftX = x - horizontalSpacing / Math.pow(2, level);
-            //         const leftY = y + levelHeight;
-            //         drawLine(ctx, x, y, leftX, leftY); // Draw line first
-            //         drawTree(ctx, horizontalSpacing, levelHeight, leftChildIndex, leftX, leftY, level + 1);
-            //     }
-            //
-            //     if (rightChildIndex < MinHeap.heap.length) {
-            //         const rightX = x + horizontalSpacing / Math.pow(2, level);
-            //         const rightY = y + levelHeight;
-            //         drawLine(ctx, x, y, rightX, rightY); // Draw line first
-            //         drawTree(ctx, horizontalSpacing, levelHeight, rightChildIndex, rightX, rightY, level + 1);
-            //     }
-
-
             const getNodePosition = (index, x = this.canvasRef.width / 2, y = 120) => {
                 const levelHeight = 80;
                 const horizontalSpacing = 1000;
@@ -143,17 +125,16 @@ export const MinHeap = {
             return;
         }
 
-        // Put the value in the last index into this index
-        this.heap[valueIndex] = this.heap[this.heap.length - 1];
+        this.animateSwap (valueIndex, this.heap.length - 1).then (r  => {
+            // Put the value in the last index into this index
+            this.heap[valueIndex] = this.heap[this.heap.length - 1];
 
-        // Delete the last index
-        this.heap.pop()
+            // Delete the last index
+            this.heap.pop()
 
-        // Heapify
-        this.heapify_down();
-
-        this.draw();
-
+            // Heapify
+            this.heapify_down ().then (r  =>  this.draw());
+        })
     },
 
     clear() {
@@ -179,34 +160,32 @@ export const MinHeap = {
         }
     },
 
-    heapify_down() {
-        let curIndex = 0;
+    async heapify_down(curIndex = 0) {
+        let leftChildIndex = 2 * curIndex + 1;
+        let rightChildIndex = 2 * curIndex + 2;
+        let smallest = curIndex;
 
-        while (true) {
-            let leftChildIndex = 2 * curIndex + 1;
-            let rightChildIndex = 2 * curIndex + 2;
-            let smallest = curIndex;
-
-            // Check if left child exists and is smaller than the current node
-            if (leftChildIndex < this.heap.length && this.heap[leftChildIndex] < this.heap[smallest]) {
-                smallest = leftChildIndex;
-            }
-
-            // Check if right child exists and is smaller than the smallest value so far
-            if (rightChildIndex < this.heap.length && this.heap[rightChildIndex] < this.heap[smallest]) {
-                smallest = rightChildIndex;
-            }
-
-            // If the smallest value is the current index, the heap property is satisfied
-            if (smallest === curIndex) break;
-
-            // Swap the current index with the smallest child
-            [this.heap[curIndex], this.heap[smallest]] = [this.heap[smallest], this.heap[curIndex]];
-
-            // Move to the next index
-            curIndex = smallest;
+        // Check if left child exists and is smaller than the current node
+        if (leftChildIndex < this.heap.length && this.heap[leftChildIndex] < this.heap[smallest]) {
+            smallest = leftChildIndex;
         }
 
+        // Check if right child exists and is smaller than the smallest value so far
+        if (rightChildIndex < this.heap.length && this.heap[rightChildIndex] < this.heap[smallest]) {
+            smallest = rightChildIndex;
+        }
+
+        // If the smallest value is the current index, the heap property is satisfied, so stop
+        if (smallest === curIndex) return;
+
+        // Await the animation before swapping
+        await this.animateSwap(curIndex, smallest);
+
+        // Swap the current index with the smallest child
+        [this.heap[curIndex], this.heap[smallest]] = [this.heap[smallest], this.heap[curIndex]];
+
+        // Recursively call heapify_down on the new smallest child index
+        await this.heapify_down(smallest);
     },
 
     setCanvasRef(canvasRef) {

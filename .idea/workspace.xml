@@ -7,7 +7,6 @@
     <list default="true" id="700caeda-9d7d-400c-93e1-8d9f6503d76d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/algorithms/heaps/min_heap.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/algorithms/heaps/min_heap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/animation.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/animation.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +86,7 @@
       <workItem from="1729309750080" duration="590000" />
       <workItem from="1729444838723" duration="857000" />
       <workItem from="1731285730809" duration="17516000" />
-      <workItem from="1731341260032" duration="23215000" />
+      <workItem from="1731341260032" duration="23916000" />
     </task>
     <servers />
   </component>
