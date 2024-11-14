@@ -156,8 +156,8 @@ export const MinHeap = {
                 this.draw();
 
                 // Draw the nodes with the space string
-                drawNode(ctx, index1Pos.x, index1Pos.y, index1Value, "#D7EBD7", true);
-                drawNode(ctx, index2Pos.x, index2Pos.y, index2Value, "#D7EBD7", true);
+                drawNode(ctx, index1Pos.x, index1Pos.y, index1Value, "#D7EAF5", true);
+                drawNode(ctx, index2Pos.x, index2Pos.y, index2Value, "#D7EAF5", true);
 
                 drawNode(ctx, x1, y1, index1Value, "#FFD700");
                 drawNode(ctx, x2, y2, index2Value, "#FFD700");
@@ -346,10 +346,31 @@ export const MinHeap = {
         // Draw the array first
         this.drawArray();
 
+        // Draw input box next
+        this.drawInputBox()
+
         // Draw the heap starting from the root (index 0)
         if (this.heap.length > 0) {
             drawTree(ctx, horizontalSpacing, levelHeight,0, canvas.width / 2, 120, 1); // Start drawing tree below the array
         }
+    },
+
+    drawInputBox() {
+        const ctx = this.canvasRef.getContext('2d');
+        const padding = 2;
+        const width = 3.2 * (((this.canvasRef.width - 20) - (this.max_size - 1) * padding) / this.max_size);
+
+        ctx.beginPath();
+        ctx.rect(10, 80, width, 90);
+        ctx.fillStyle = '#f7e8e8';
+        ctx.fill();
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        drawNode(ctx, 10 + (width / 2), 80 + 57, 1,);
+
+        ctx.fillText("Insert", 10 + (width / 2), 80 + 18);
     },
 
     drawArray() {
@@ -364,7 +385,7 @@ export const MinHeap = {
         // Draw the big box that will hold all array elements
         ctx.beginPath();
         ctx.rect(10, yPosition, boxWidth, boxHeight);  // Large box
-        ctx.fillStyle = '#f0f0f0';  // Light gray for the big box
+        ctx.fillStyle = '#f7e8e8';
         ctx.fill();
         ctx.stroke();
 
@@ -405,7 +426,7 @@ export const MinHeap = {
 }
 
 // Draw a single node
-const drawNode = (ctx, x, y, value, color="#A4D1A7", text_clear = false) => {
+const drawNode = (ctx, x, y, value, color="#add8e6", text_clear = false) => {
     // Start with a base font size
     let fontSize = 20;
     ctx.font = `${fontSize}px Arial`;

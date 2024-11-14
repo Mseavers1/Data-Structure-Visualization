@@ -1,12 +1,31 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import {FormControl, FormControlLabel, FormLabel, RadioGroup, Slider, Typography} from "@mui/material";
+import {
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    IconButton,
+    RadioGroup,
+    Slide,
+    Slider,
+    Typography
+} from "@mui/material";
 import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
 import Popover from "@mui/material/Popover";
 import {Radio} from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropUp';
+import {ArrowDropUp} from "@mui/icons-material";
 
+
+function ArrowBackIcon () {
+    return null;
+}
+
+function ArrowForwardIcon () {
+    return null;
+}
 
 export default function Animation({algorithm}) {
 
@@ -19,6 +38,12 @@ export default function Animation({algorithm}) {
     const [selectedOption, setSelectedOption] = useState('number');
 
     const [anchorEl, setAnchorEl] = useState(null);
+
+    const [isSlidingBoxOpen, setIsSlidingBoxOpen] = useState(false);
+
+    const toggleBox = () => {
+        setIsSlidingBoxOpen((prev) => !prev);
+    };
 
     React.useEffect(() => {
         algorithm.set_animation_speed(sliderValue);
@@ -150,8 +175,9 @@ export default function Animation({algorithm}) {
                 <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_clear_click}
                         sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Clear</Button>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={handleClick} sx={{backgroundColor: '#b01e24', color: '#ffffff ',}}>
+                <Box sx={{display : 'flex', alignItems : 'center', gap : 1}}>
+                    <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={handleClick}
+                            sx={{backgroundColor : '#1a73e8', color : '#ffffff ',}}>
                         Randomize
                     </Button>
 
@@ -160,22 +186,22 @@ export default function Animation({algorithm}) {
                         anchorEl={anchorEl}
                         onClose={handleClose}
                         anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'center',
+                            vertical : 'bottom',
+                            horizontal : 'center',
                         }}
                         transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'center',
+                            vertical : 'top',
+                            horizontal : 'center',
                         }}
                     >
                         <Box
                             sx={{
-                                display: 'flex',
-                                flexDirection: 'column', // Stack elements vertically
-                                justifyContent: 'flex-start', // Align content to the top
-                                alignItems: 'center',
-                                width: 250, // Adjust the width of the Popover container
-                                padding: '10px',
+                                display : 'flex',
+                                flexDirection : 'column', // Stack elements vertically
+                                justifyContent : 'flex-start', // Align content to the top
+                                alignItems : 'center',
+                                width : 250, // Adjust the width of the Popover container
+                                padding : '10px',
                             }}
                         >
                             {/* TextField for Number Input */}
@@ -184,24 +210,24 @@ export default function Animation({algorithm}) {
                                 type="number"
                                 variant="filled"
                                 sx={{
-                                    backgroundColor: "#ffffff",
-                                    width: '100%', // Takes full width of the parent Box
-                                    marginBottom: '10px', // Add some space below
+                                    backgroundColor : "#ffffff",
+                                    width : '100%', // Takes full width of the parent Box
+                                    marginBottom : '10px', // Add some space below
                                 }}
                                 value={randomN} // Bind this to your state for handling the input
                                 onChange={handleRandomChange} // Handle input changes
                             />
 
                             {/* Radio Buttons */}
-                            <Box sx={{ marginBottom: '10px' }}>
+                            <Box sx={{marginBottom : '10px'}}>
                                 <FormControl>
                                     <RadioGroup
                                         value={selectedOption} // This should be controlled state for radio button selection
                                         onChange={handleRadioChange} // Handle change event for radio buttons
                                         row
                                     >
-                                        <FormControlLabel value="number" control={<Radio />} label="Numbers" />
-                                        <FormControlLabel value="string" control={<Radio />} label="Strings" />
+                                        <FormControlLabel value="number" control={<Radio/>} label="Numbers"/>
+                                        <FormControlLabel value="string" control={<Radio/>} label="Strings"/>
                                     </RadioGroup>
                                 </FormControl>
                             </Box>
@@ -210,9 +236,9 @@ export default function Animation({algorithm}) {
                             <Button
                                 variant="contained"
                                 sx={{
-                                    backgroundColor: '#b01e24',
-                                    color: '#ffffff',
-                                    width: '100%'
+                                    backgroundColor : '#b01e24',
+                                    color : '#ffffff',
+                                    width : '100%'
                                 }}
                                 onClick={onRandomizedClick} // Handle the button click
                             >
@@ -228,7 +254,6 @@ export default function Animation({algorithm}) {
                 <canvas ref={canvasRef} width={800} height={600}></canvas>
             </div>
 
-
             <div className="animations-footer">
                 <Box sx={{width : 300}} className="speed-slider">
                     <Typography gutterBottom>Animation Speed</Typography>
@@ -238,37 +263,38 @@ export default function Animation({algorithm}) {
                         aria-labelledby="slider"
                         valueLabelDisplay="auto"
                         valueLabelFormat={(sliderValue) => {
-                            if (sliderValue === 100) return 'Sloth';
+                            if (sliderValue === 100) return 'Instant';
                             else if (sliderValue >= 66 && sliderValue < 100) return 'Fast';
                             else if (sliderValue >= 33 && sliderValue < 66) return 'Normal';
                             else if (sliderValue > 0 && sliderValue < 33) return 'Slow';
-                            else return 'Pause';
+                            else return 'Sloth';
                         }}
                         min={0}
                         max={100}
                         sx={{
-                            '& .MuiSlider-rail': {
-                                opacity: 1,
-                                backgroundColor: 'gray',
-                                height: 8, // Makes the rail thicker
+                            '& .MuiSlider-rail' : {
+                                opacity : 1,
+                                backgroundColor : 'gray',
+                                height : 8, // Makes the rail thicker
                             },
-                            '& .MuiSlider-track': {
-                                backgroundColor: '#b01e24', // Change color of the track
-                                height: 8, // Makes the track thicker
+                            '& .MuiSlider-track' : {
+                                backgroundColor : '#d9534f', // Change color of the track
+                                height : 8, // Makes the track thicker
                             },
-                            '& .MuiSlider-thumb': {
-                                backgroundColor: 'black', // Customize the thumb color
-                                width: 24, // Thumb size
-                                height: 24,
-                                '&:hover': {
-                                    backgroundColor: 'green', // Hover effect on thumb
+                            '& .MuiSlider-thumb' : {
+                                backgroundColor : 'black', // Customize the thumb color
+                                width : 24, // Thumb size
+                                height : 24,
+                                '&:hover' : {
+                                    backgroundColor : 'green', // Hover effect on thumb
                                 },
                             },
                         }}
                     />
                 </Box>
 
-                <Button variant="contained" onClick={pause_or_unpause}  sx={{ backgroundColor: '#b01e24', color: '#ffffff ', }}>{paused ? "Unpause" : "Pause"}</Button>
+                <Button variant="contained" onClick={pause_or_unpause}
+                        sx={{backgroundColor : '#d9534f', color : '#ffffff ',}}>{paused ? "Unpause" : "Pause"}</Button>
             </div>
         </div>
     );
