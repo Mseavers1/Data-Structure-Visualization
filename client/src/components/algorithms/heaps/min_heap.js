@@ -6,21 +6,28 @@ export const MinHeap = {
     is_animating: false,
     animation_speed: 200,
     pause_animation: false,
+    inputWidth: 300,
 
-    add(value) {
+    async add (value) {
 
         if (this.heap.length > this.max_size - 1 || value === "" || this.is_animating) return;
 
-        const val = parseFloat(value)
+        const val = parseFloat (value)
 
         // If val is not a number but the heap is numbers & vise versa
-        if (typeof this.heap[0] === "number" && isNaN(val) || typeof this.heap[0] === "string" && !isNaN(val)) return;
+        if (typeof this.heap[0] === "number" && isNaN (val) || typeof this.heap[0] === "string" && !isNaN (val)) return;
 
-        isNaN(val) ? this.heap.push(value) : this.heap.push(val)
+        isNaN (val) ? this.heap.push (value) : this.heap.push (val)
 
-        this.draw();
+        this.drawInputBox ("Insert", true, this.heap[this.heap.length - 1], true, 10 + (this.inputWidth / 2), 137);
+        await delay (2000)
 
-        this.heapify_up ().then (r  =>  this.draw());
+        this.draw ();
+
+        await this.animateInsertion()
+        await this.heapify_up()
+        this.draw()
+
     },
 
     generateRandomNumber() {
@@ -77,6 +84,63 @@ export const MinHeap = {
         this.buildHeap().then (r  => this.draw())
     },
 
+    async animateInsertion() {
+
+        return new Promise(async (resolve) => {
+
+            this.is_animating = true;
+
+            const target = getNodePosition (this.heap.length - 1)
+
+            const canvas = this.canvasRef;
+            const ctx = canvas.getContext ('2d');
+
+            const startingX = 10 + (this.inputWidth / 2);
+            const startingY = 137
+
+            let indexPos = {x : startingX, y : startingY};
+
+            let stepX, stepY;
+
+            const calculateSteps = () => {
+                stepX = (target.x - startingX) / this.animation_speed;
+                stepY = (target.y - startingY) / this.animation_speed;
+            };
+
+            const animate = () => {
+
+                if (this.pause_animation) {
+                    requestAnimationFrame (animate);
+                    return;
+                }
+
+                calculateSteps ();
+                ctx.clearRect (0, 0, canvas.width, canvas.height);
+                this.draw ()
+
+                drawNode (ctx, target.x, target.y, "", "#D7EAF5", true)
+                this.drawInputBox ("Inserting", true, this.heap[this.heap.length - 1], true, indexPos.x, indexPos.y);
+
+                const dist = Math.sqrt (Math.pow (indexPos.x - target.x, 2) - Math.pow (indexPos.y - target.y, 2));
+
+                if (dist > 1) {
+                    indexPos.x += stepX;
+                    indexPos.y += stepY;
+
+                    requestAnimationFrame (animate);
+                } else {
+                    this.drawInputBox ("Inserting", true, this.heap[this.heap.length - 1], true, target.x, target.y);
+                    this.is_animating = false;
+                    resolve ();
+                    this.draw ();
+                }
+            }
+
+            calculateSteps ();
+            animate ();
+        });
+    },
+
     async buildHeap() {
         for (let i = Math.floor(this.heap.length / 2) - 1; i >= 0; i--) {
             await this.heapify_down(i).then(r => this.draw());
@@ -93,22 +157,6 @@ export const MinHeap = {
             const yPosition = 40;
             const slotWidth = (boxWidth - (this.max_size - 1) * padding) / this.max_size;
             const indexYOffset = -12;
-
-            const getNodePosition = (index, x = this.canvasRef.width / 2, y = 120) => {
-                const levelHeight = 80;
-                const horizontalSpacing = 1000;
-                const level = Math.floor(Math.log2(index + 1));
-
-                if (index === 0) return { x, y };
-
-                const parentIndex = Math.floor((index - 1) / 2);
-                const parentPos = getNodePosition(parentIndex, x, y);
-
-                const newX = parentPos.x + (index % 2 === 1 ? -horizontalSpacing / Math.pow(2, level) : horizontalSpacing / Math.pow(2, level));
-                const newY = parentPos.y + levelHeight;
-
-                return { x: newX, y: newY };
-            };
 
             if (!this.canvasRef) return;
 
@@ -330,6 +378,7 @@ export const MinHeap = {
 
     setCanvasRef(canvasRef) {
         this.canvasRef = canvasRef;
+        this.inputWidth = 3.2 * (((this.canvasRef?.width - 20) - (this.max_size - 1) * 2) / this.max_size);
     },
 
     draw() {
@@ -347,7 +396,7 @@ export const MinHeap = {
         this.drawArray();
 
         // Draw input box next
-        this.drawInputBox()
+        this.heap.length === 0 ? this.drawInputBox("Empty") : this.drawInputBox("Complete")
 
         // Draw the heap starting from the root (index 0)
         if (this.heap.length > 0) {
@@ -355,22 +404,27 @@ export const MinHeap = {
         }
     },
 
-    drawInputBox() {
+    drawInputBox(txt, isNode = false, nodeTxt = "", isNodeMoving = false, nodeX = 0, nodeY = 0) {
         const ctx = this.canvasRef.getContext('2d');
-        const padding = 2;
-        const width = 3.2 * (((this.canvasRef.width - 20) - (this.max_size - 1) * padding) / this.max_size);
 
         ctx.beginPath();
-        ctx.rect(10, 80, width, 90);
-        ctx.fillStyle = '#f7e8e8';
+        ctx.rect(10, 80, this.inputWidth, 90);
+        ctx.fillStyle = "#f7e8e8";
         ctx.fill();
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        drawNode(ctx, 10 + (width / 2), 80 + 57, 1,);
+        if (isNode) drawNode(ctx, nodeX, nodeY, nodeTxt, "#add8e6",nodeTxt === "");
 
-        ctx.fillText("Insert", 10 + (width / 2), 80 + 18);
+        let fontSize = 20;
+        ctx.font = `${fontSize}px Arial`;
+
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        ctx.fillText(txt, 10 + (this.inputWidth / 2), 80 + 18);
     },
 
     drawArray() {
@@ -498,3 +552,23 @@ const drawTree = (ctx, horizontalSpacing, levelHeight, index, x, y, level) => {
     // Now draw the node itself on top of the lines
     drawNode(ctx, x, y, MinHeap.heap[index]);
 };
+
+const getNodePosition = (index, x = MinHeap.canvasRef.width / 2, y = 120) => {
+    const levelHeight = 80;
+    const horizontalSpacing = 1000;
+    const level = Math.floor(Math.log2(index + 1));
+
+    if (index === 0) return { x, y };
+
+    const parentIndex = Math.floor((index - 1) / 2);
+    const parentPos = getNodePosition(parentIndex, x, y);
+
+    const newX = parentPos.x + (index % 2 === 1 ? -horizontalSpacing / Math.pow(2, level) : horizontalSpacing / Math.pow(2, level));
+    const newY = parentPos.y + levelHeight;
+
+    return { x: newX, y: newY };
+};
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
