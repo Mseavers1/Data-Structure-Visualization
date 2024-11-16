@@ -205,19 +205,19 @@ export default function Animation({algorithm}) {
                                     padding : '10px',
                                 }}
                             >
-                                {/* TextField for Number Input */}
-                                <TextField
-                                    label="Number Input"
-                                    type="number"
-                                    variant="filled"
-                                    sx={{
-                                        backgroundColor : "#ffffff",
-                                        width : '100%', // Takes full width of the parent Box
-                                        marginBottom : '10px', // Add some space below
-                                    }}
-                                    value={randomN} // Bind this to your state for handling the input
-                                    onChange={handleRandomChange} // Handle input changes
-                                />
+                                {/* Slider for Number Input */}
+                                <Box sx={{ width: '100%', marginBottom: '10px' }}>
+                                    <Typography gutterBottom>Length of Array</Typography> {/* Optional: Label for the slider */}
+                                    <Slider
+                                        value={randomN} // Bind this to your state for handling the slider value
+                                        onChange={handleRandomChange} // Handle input changes
+                                        min={0} // Set the minimum value
+                                        max={algorithm.max_size} // Set the maximum value
+                                        step={1} // Set the step value
+                                        valueLabelDisplay="auto" // Display the current value on the slider
+                                        valueLabelFormat={(value) => `${value}`} // Format the value label (optional)
+                                    />
+                                </Box>
 
                                 {/* Radio Buttons */}
                                 <Box sx={{marginBottom : '10px'}}>
