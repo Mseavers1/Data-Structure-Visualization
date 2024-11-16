@@ -180,12 +180,26 @@ li {
     background-color: var(--secondary-color);
     height: 50px;
     width: 100%;
-    text-align: center;
-    line-height: 50px;
     display: flex;
     align-items: center;
-    padding: 10px;
-    gap: 10px;
+    justify-content: space-between; /* Ensures space between elements */
+    gap: 10px; /* Adjust this gap if elements are too far apart */
+    flex-wrap: nowrap; /* Prevents wrapping of elements to the next line */
+    padding: 0 10px; /* Controls the padding */
+}
+
+.animations-left, .animations-right {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust as needed */
+}
+
+.animations-left {
+    flex: 1; /* Ensures it takes available space */
+}
+
+.animations-right {
+    flex: 0; /* Keeps it at the far right */
 }
 
 .animations-footer {

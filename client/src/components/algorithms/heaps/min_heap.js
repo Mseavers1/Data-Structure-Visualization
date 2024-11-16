@@ -7,6 +7,8 @@ export const MinHeap = {
     animation_speed: 200,
     pause_animation: false,
     inputWidth: 300,
+    highlightedIndex: -1,
+    highlight_mode: true,
 
     async add (value) {
 
@@ -15,19 +17,67 @@ export const MinHeap = {
         const val = parseFloat (value)
 
         // If val is not a number but the heap is numbers & vise versa
-        if (typeof this.heap[0] === "number" && isNaN (val) || typeof this.heap[0] === "string" && !isNaN (val)) return;
+        if ((typeof this.heap[0] === "number" && isNaN (val)) || (typeof this.heap[0] === "string" && !isNaN (val))) return;
 
         isNaN (val) ? this.heap.push (value) : this.heap.push (val)
 
         this.drawInputBox ("Insert", true, this.heap[this.heap.length - 1], true, 10 + (this.inputWidth / 2), 137);
+        this.is_animating = true;
         await delay (2000)
-
-        this.draw ();
 
         await this.animateInsertion()
         await this.heapify_up()
         this.draw()
 
+    },
+
+    toggleMouseListener(isActive) {
+        this.isMouseListenerActive = isActive;
+
+        // Create the bound mouse move listener if it doesn't exist
+        if (!this.mouseMoveListener) {
+            this.mouseMoveListener = this.handleMouseMove.bind(this);
+        }
+
+        // Add or remove the event listener based on the state
+        if (isActive) {
+            this.canvasRef.addEventListener('mousemove', this.mouseMoveListener);
+        } else {
+            this.canvasRef.removeEventListener('mousemove', this.mouseMoveListener);
+        }
+    },
+
+    handleMouseMove(event) {
+
+        if (this.is_animating) return;
+
+        const rect = this.canvasRef.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left; // Mouse X position relative to the canvas
+        const mouseY = event.clientY - rect.top;  // Mouse Y position relative to the canvas
+
+        // Check if the mouse is within the array box
+        const yPosition = 40; // Same as yPosition in drawArray
+        const boxHeight = 30; // Same as boxHeight in drawArray
+        if (mouseY >= yPosition && mouseY <= yPosition + boxHeight) {
+            const arrayLength = this.max_size;
+            const padding = 2; // Same as padding in drawArray
+            const boxWidth = this.canvasRef.width - 20; // Same as boxWidth in drawArray
+            const slotWidth = (boxWidth - (arrayLength - 1) * padding) / arrayLength;
+
+            // Calculate which index is hovered
+            const hoveredIndex = Math.floor((mouseX - 10) / (slotWidth + padding));
+
+            if (hoveredIndex >= 0 && hoveredIndex < arrayLength) {
+                this.highlightedIndex = hoveredIndex;
+            } else {
+                this.highlightedIndex = -1; // No valid index is hovered
+            }
+        } else {
+            this.highlightedIndex = -1; // No valid index is hovered
+        }
+
+        // Redraw the array with the highlighted cell
+        this.draw();
     },
 
     generateRandomNumber() {
@@ -121,11 +171,18 @@ export const MinHeap = {
                 drawNode (ctx, target.x, target.y, "", "#D7EAF5", true)
                 this.drawInputBox ("Inserting", true, this.heap[this.heap.length - 1], true, indexPos.x, indexPos.y);
 
-                const dist = Math.sqrt (Math.pow (indexPos.x - target.x, 2) - Math.pow (indexPos.y - target.y, 2));
+                const dist = Math.sqrt (Math.pow (indexPos.x - target.x, 2) + Math.pow (indexPos.y - target.y, 2));
 
                 if (dist > 1) {
                     indexPos.x += stepX;
-                    indexPos.y += stepY;
+                    indexPos.y += stepY
+
+                    if ((stepX > 0 && indexPos.x > target.x) || (stepX < 0 && indexPos.x < target.x)) {
+                        indexPos.x = target.x;
+                    }
+                    if ((stepY > 0 && indexPos.y > target.y) || (stepY < 0 && indexPos.y < target.y)) {
+                        indexPos.y = target.y;
+                    }
 
                     requestAnimationFrame (animate);
                 } else {
@@ -379,6 +436,7 @@ export const MinHeap = {
     setCanvasRef(canvasRef) {
         this.canvasRef = canvasRef;
         this.inputWidth = 3.2 * (((this.canvasRef?.width - 20) - (this.max_size - 1) * 2) / this.max_size);
+        //this.canvasRef.addEventListener('mousemove', this.handleMouseMove.bind(this));
     },
 
     draw() {
@@ -458,6 +516,11 @@ export const MinHeap = {
         for (let i = 0; i < arrayLength; i++) {
             const xPosition = 10 + i * (slotWidth + padding);  // Horizontal position for each element
             const value = this.heap[i] !== undefined ? this.heap[i] : nilText;  // Use "nil" for empty slots
+
+            if (i === this.highlightedIndex) {
+                ctx.fillStyle = '#FFD700';
+                ctx.fillRect(xPosition, yPosition, slotWidth, boxHeight);
+            }
 
             ctx.strokeStyle = 'black'
             ctx.fillStyle = 'black'
@@ -550,7 +613,7 @@ const drawTree = (ctx, horizontalSpacing, levelHeight, index, x, y, level) => {
     }
 
     // Now draw the node itself on top of the lines
-    drawNode(ctx, x, y, MinHeap.heap[index]);
+    MinHeap.highlightedIndex === index ? drawNode(ctx, x, y, MinHeap.heap[index], "#FFD700") : drawNode(ctx, x, y, MinHeap.heap[index])
 };
 
 const getNodePosition = (index, x = MinHeap.canvasRef.width / 2, y = 120) => {

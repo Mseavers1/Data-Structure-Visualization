@@ -8,15 +8,13 @@ import {
     IconButton,
     RadioGroup,
     Slide,
-    Slider,
+    Slider, Switch,
     Typography
 } from "@mui/material";
 import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
 import Popover from "@mui/material/Popover";
 import {Radio} from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropUp';
-import {ArrowDropUp} from "@mui/icons-material";
 
 
 function ArrowBackIcon () {
@@ -39,10 +37,12 @@ export default function Animation({algorithm}) {
 
     const [anchorEl, setAnchorEl] = useState(null);
 
-    const [isSlidingBoxOpen, setIsSlidingBoxOpen] = useState(false);
+    const [highlightMode, setHighlightMode] = useState(false);
 
-    const toggleBox = () => {
-        setIsSlidingBoxOpen((prev) => !prev);
+
+    const handleToggle = (event) => {
+        setHighlightMode(event.target.checked);
+        algorithm.toggleMouseListener(event.target.checked);
     };
 
     React.useEffect(() => {
@@ -148,105 +148,122 @@ export default function Animation({algorithm}) {
         <div className="animations">
 
             <div className="animations-header">
-                <TextField
-                    id="filled-search"
-                    label="Input"
-                    type="search"
-                    variant="filled"
-                    value={input}
-                    onChange={(event) => setInput (event.target.value)}
-                    sx={{
-                        scale : "90%",
-                        width : "120px",
-                        backgroundColor : "#ffffff",
-                        color : "#000",
-                    }}
-                    slotProps={{
-                        htmlInput : {
-                            maxLength : 5,
-                        },
-                    }}
-                />
-
-                <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_add_click}
-                        sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Add</Button>
-                <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_remove_click}
-                        sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Delete</Button>
-                <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_clear_click}
-                        sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Clear</Button>
-
-                <Box sx={{display : 'flex', alignItems : 'center', gap : 1}}>
-                    <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={handleClick}
-                            sx={{backgroundColor : '#1a73e8', color : '#ffffff ',}}>
-                        Randomize
-                    </Button>
-
-                    <Popover
-                        open={open}
-                        anchorEl={anchorEl}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                            vertical : 'bottom',
-                            horizontal : 'center',
+                <div className="animations-left">
+                    <TextField
+                        id="filled-search"
+                        label="Input"
+                        type="search"
+                        variant="filled"
+                        value={input}
+                        onChange={(event) => setInput (event.target.value)}
+                        sx={{
+                            scale : "90%",
+                            width : "120px",
+                            backgroundColor : "#ffffff",
+                            color : "#000",
                         }}
-                        transformOrigin={{
-                            vertical : 'top',
-                            horizontal : 'center',
+                        slotProps={{
+                            htmlInput : {
+                                maxLength : 5,
+                            },
                         }}
-                    >
-                        <Box
-                            sx={{
-                                display : 'flex',
-                                flexDirection : 'column', // Stack elements vertically
-                                justifyContent : 'flex-start', // Align content to the top
-                                alignItems : 'center',
-                                width : 250, // Adjust the width of the Popover container
-                                padding : '10px',
+                    />
+
+                    <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_add_click}
+                            sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Add</Button>
+                    <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_remove_click}
+                            sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Delete</Button>
+                    <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={on_clear_click}
+                            sx={{backgroundColor : '#b01e24', color : '#ffffff ',}}>Clear</Button>
+
+                    <Box sx={{display : 'flex', alignItems : 'center', gap : 1}}>
+                        <Button variant="contained" /*disabled={algorithm.is_animating}*/ onClick={handleClick}
+                                sx={{backgroundColor : '#1a73e8', color : '#ffffff ',}}>
+                            Randomize
+                        </Button>
+
+                        <Popover
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                                vertical : 'bottom',
+                                horizontal : 'center',
+                            }}
+                            transformOrigin={{
+                                vertical : 'top',
+                                horizontal : 'center',
                             }}
                         >
-                            {/* TextField for Number Input */}
-                            <TextField
-                                label="Number Input"
-                                type="number"
-                                variant="filled"
+                            <Box
                                 sx={{
-                                    backgroundColor : "#ffffff",
-                                    width : '100%', // Takes full width of the parent Box
-                                    marginBottom : '10px', // Add some space below
+                                    display : 'flex',
+                                    flexDirection : 'column', // Stack elements vertically
+                                    justifyContent : 'flex-start', // Align content to the top
+                                    alignItems : 'center',
+                                    width : 250, // Adjust the width of the Popover container
+                                    padding : '10px',
                                 }}
-                                value={randomN} // Bind this to your state for handling the input
-                                onChange={handleRandomChange} // Handle input changes
-                            />
-
-                            {/* Radio Buttons */}
-                            <Box sx={{marginBottom : '10px'}}>
-                                <FormControl>
-                                    <RadioGroup
-                                        value={selectedOption} // This should be controlled state for radio button selection
-                                        onChange={handleRadioChange} // Handle change event for radio buttons
-                                        row
-                                    >
-                                        <FormControlLabel value="number" control={<Radio/>} label="Numbers"/>
-                                        <FormControlLabel value="string" control={<Radio/>} label="Strings"/>
-                                    </RadioGroup>
-                                </FormControl>
-                            </Box>
-
-                            {/* Button */}
-                            <Button
-                                variant="contained"
-                                sx={{
-                                    backgroundColor : '#b01e24',
-                                    color : '#ffffff',
-                                    width : '100%'
-                                }}
-                                onClick={onRandomizedClick} // Handle the button click
                             >
-                                Randomize
-                            </Button>
-                        </Box>
-                    </Popover>
-                </Box>
+                                {/* TextField for Number Input */}
+                                <TextField
+                                    label="Number Input"
+                                    type="number"
+                                    variant="filled"
+                                    sx={{
+                                        backgroundColor : "#ffffff",
+                                        width : '100%', // Takes full width of the parent Box
+                                        marginBottom : '10px', // Add some space below
+                                    }}
+                                    value={randomN} // Bind this to your state for handling the input
+                                    onChange={handleRandomChange} // Handle input changes
+                                />
+
+                                {/* Radio Buttons */}
+                                <Box sx={{marginBottom : '10px'}}>
+                                    <FormControl>
+                                        <RadioGroup
+                                            value={selectedOption} // This should be controlled state for radio button selection
+                                            onChange={handleRadioChange} // Handle change event for radio buttons
+                                            row
+                                        >
+                                            <FormControlLabel value="number" control={<Radio/>} label="Numbers"/>
+                                            <FormControlLabel value="string" control={<Radio/>} label="Strings"/>
+                                        </RadioGroup>
+                                    </FormControl>
+                                </Box>
+
+                                {/* Button */}
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        backgroundColor : '#b01e24',
+                                        color : '#ffffff',
+                                        width : '100%'
+                                    }}
+                                    onClick={onRandomizedClick} // Handle the button click
+                                >
+                                    Randomize
+                                </Button>
+                            </Box>
+                        </Popover>
+                    </Box>
+                </div>
+
+                <div className="animations-right">
+                    <FormControlLabel
+                        style={{display: "flex", right: "0", left: "auto"}}
+                        control={
+                            <Switch
+                                checked={highlightMode}
+                                onChange={handleToggle}
+                                color="primary"
+                            />
+                        }
+                        label="Highlight"
+                    />
+                </div>
+
             </div>
 
 
