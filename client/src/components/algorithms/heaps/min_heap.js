@@ -52,6 +52,7 @@ export const MinHeap = {
         if (this.is_animating) return;
 
         const rect = this.canvasRef.getBoundingClientRect();
+        const ctx = this.canvasRef.getContext('2d');
         const mouseX = event.clientX - rect.left; // Mouse X position relative to the canvas
         const mouseY = event.clientY - rect.top;  // Mouse Y position relative to the canvas
 
@@ -75,6 +76,28 @@ export const MinHeap = {
         } else {
             this.highlightedIndex = -1; // No valid index is hovered
         }
+
+        // Not over the array
+        if (this.highlightedIndex === -1) {
+            for (let i = 0; i < this.heap.length; i++) {
+                const curr = getNodePosition(i);
+
+                let textWidth = ctx.measureText(this.heap[i]).width;
+
+                // Set a maximum radius for the node (this could be adjusted as needed)
+                const maxNodeRadius = 25;
+
+                // Calculate the circle's radius based on the maximum width of the text
+                let nodeRadius = Math.max(maxNodeRadius, textWidth / 2.5 + 10);
+
+
+                if (Math.pow(mouseX - curr.x, 2) + Math.pow(mouseY - curr.y, 2) <= Math.pow(nodeRadius, 2)) {
+                    this.highlightedIndex = i; // Highlight this node
+                    break; // Exit loop once a node is found to be hovered
+                }
+            }
+        }
+
 
         // Redraw the array with the highlighted cell
         this.draw();
