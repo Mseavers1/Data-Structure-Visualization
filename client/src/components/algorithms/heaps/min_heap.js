@@ -390,16 +390,21 @@ export const MinHeap = {
             return;
         }
 
-        this.animateSwap (valueIndex, this.heap.length - 1).then (r  => {
-            // Put the value in the last index into this index
-            this.heap[valueIndex] = this.heap[this.heap.length - 1];
-
-            // Delete the last index
+        if (valueIndex === this.heap.length - 1) {
             this.heap.pop()
+            this.draw()
+        } else {
+            this.animateSwap (valueIndex, this.heap.length - 1).then (r  => {
+                // Put the value in the last index into this index
+                this.heap[valueIndex] = this.heap[this.heap.length - 1];
 
-            // Heapify
-            this.heapify_down ().then (r  =>  this.draw());
-        })
+                // Delete the last index
+                this.heap.pop()
+
+                // Heapify
+                this.heapify_down ().then (r  =>  this.draw());
+            })
+        }
     },
 
     clear() {
