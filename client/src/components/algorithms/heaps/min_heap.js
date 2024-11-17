@@ -369,6 +369,90 @@ export const MinHeap = {
         value === 0 ? this.animation_speed = 5000 : this.animation_speed = (y * value) + 400;
     },
 
+    //        this.drawInputBox ("Find Node " + value, false, "", false, 10 + (this.inputWidth / 2), 137, found ? "Yes → Return index " + i : "No → continue", "Is " + this.heap[i] + " = " + value + "?");
+    //
+    //         const index = getNodePosition(i);
+    //         let x = index.x, y = index.y;
+    //         drawNode(ctx, x, y, this.heap[i], "#FFD700");
+    //
+    //         await delay (2000)
+    //
+    //         this.draw()
+
+
+    async find (value, cur, ctx) {
+
+        // Could not find
+        if (cur > this.heap.length || this.heap[cur] === undefined || this.heap[cur] === null) {
+
+            this.drawInputBox(
+                "Find Node " + value,
+                false,
+                "",
+                false,
+                10 + this.inputWidth / 2,
+                137,
+                "Stop and Backtrack",
+                "Reached Leaf",
+            );
+            await delay(2000);
+
+            return -1;
+        }
+
+        const index = getNodePosition(cur)
+
+        let x = index.x, y = index.y;
+        drawNode(ctx, x, y, this.heap[cur], "#FFD700");
+
+        // Comparison Animation
+        if (Number(this.heap[cur]) > value) {
+            this.drawInputBox(
+                "Find Node " + value,
+                false,
+                "",
+                false,
+                10 + this.inputWidth / 2,
+                137,
+                "Stop and Backtrack",
+                this.heap[cur] + " is > " + value,
+            );
+
+            await delay(1000);
+
+            this.draw();
+
+
+            return -1;
+        }
+
+        // Regular Animation
+        this.drawInputBox(
+            "Find Node " + value,
+            false,
+            "",
+            false,
+            10 + this.inputWidth / 2,
+            137,
+            this.heap[cur] === value ? `Yes → Return index ${cur}` : "No → Continue",
+            `Is ${this.heap[cur]} = ${value}?`
+        );
+
+        await delay(1000);
+
+        this.draw();
+
+        // Found
+        if (Number(this.heap[cur]) === value) return cur;
+
+        // Search children
+        const left = await this.find(value, (2 * (cur + 1)) - 1, ctx);
+
+        if (left !== -1) return left;
+
+        return await this.find (value, (2 * (cur + 1) + 1) - 1, ctx);
+    },
+
     async remove (value) {
 
         if (this.heap.length <= 0 || value === "" || this.is_animating) return;
@@ -383,34 +467,15 @@ export const MinHeap = {
         this.is_animating = true;
         await delay (2000)
 
-        let valueIndex = -1; // Default -1 meaning it is not in the heap
-
         // Animation 2 - Check if node is in the heap
 
-        // Find the index of the value if exists -- Linear Search
-        for (let i = 0; i < this.heap.length; i++) {
-
-            const found = Number (this.heap[i]) === val
-            this.drawInputBox ("Find Node " + value, false, "", false, 10 + (this.inputWidth / 2), 137, found ? "Yes → Return index " + i : "No → continue", "Is " + this.heap[i] + " = " + value + "?");
-
-            const index = getNodePosition(i);
-            let x = index.x, y = index.y;
-            drawNode(ctx, x, y, this.heap[i], "#FFD700");
-
-            await delay (2000)
-
-            this.draw()
-
-            // Found item
-            if (found) {
-                valueIndex = i;
-                break;
-            }
-        }
+        // Find the index of the value if exists
+        const valueIndex = await this.find(val, 0, ctx);
 
         // Value is not in heap
         if (valueIndex < 0) {
             this.drawInputBox ("Find Node " + value, false, "", false, 10 + (this.inputWidth / 2), 137, "Node is not in Heap", "");
+            this.is_animating = false;
             return;
         }
 
