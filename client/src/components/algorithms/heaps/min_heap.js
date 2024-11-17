@@ -9,6 +9,7 @@ export const MinHeap = {
     inputWidth: 300,
     highlightedIndex: -1,
     highlight_mode: true,
+    name: "Heap",
 
     async add (value) {
 
@@ -21,7 +22,7 @@ export const MinHeap = {
 
         isNaN (val) ? this.heap.push (value) : this.heap.push (val)
 
-        this.drawInputBox ("Insert", true, this.heap[this.heap.length - 1], true, 10 + (this.inputWidth / 2), 137);
+        this.drawInputBox ("Insert", true, this.heap[this.heap.length - 1], true, 10 + (this.inputWidth / 2), 137, "Into the " + this.name);
         this.is_animating = true;
         await delay (2000)
 
@@ -191,8 +192,8 @@ export const MinHeap = {
                 ctx.clearRect (0, 0, canvas.width, canvas.height);
                 this.draw ()
 
-                drawNode (ctx, target.x, target.y, "", "#D7EAF5", true)
-                this.drawInputBox ("Inserting", true, this.heap[this.heap.length - 1], true, indexPos.x, indexPos.y);
+                drawNode (ctx, target.x, target.y, this.heap[this.heap.length-1], "#D7EAF5", true)
+                this.drawInputBox ("Inserting Node " + this.heap[this.heap.length-1], true, this.heap[this.heap.length - 1], true, indexPos.x, indexPos.y, "to index " + (this.heap.length - 1));
 
                 const dist = Math.sqrt (Math.pow (indexPos.x - target.x, 2) + Math.pow (indexPos.y - target.y, 2));
 
@@ -209,7 +210,7 @@ export const MinHeap = {
 
                     requestAnimationFrame (animate);
                 } else {
-                    this.drawInputBox ("Inserting", true, this.heap[this.heap.length - 1], true, target.x, target.y);
+                    this.drawInputBox ("Inserting Node " + this.heap[this.heap.length-1], true, this.heap[this.heap.length - 1], true, target.x, target.y, "to index " + (this.heap.length - 1));
                     this.is_animating = false;
                     resolve ();
                     this.draw ();
@@ -282,6 +283,8 @@ export const MinHeap = {
 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 this.draw();
+
+                this.drawInputBox ("Swapping Nodes", false, "", false, 0, 0, index2Value + " and " + index1Value);
 
                 // Draw the nodes with the space string
                 drawNode(ctx, index1Pos.x, index1Pos.y, index1Value, "#D7EAF5", true);
@@ -416,12 +419,34 @@ export const MinHeap = {
     },
 
     async heapify_up(curIndex = this.heap.length - 1) {
-        if (curIndex <= 0) return;  // Base case: we're at the root, so stop
 
-        let parentIndex = Math.floor((curIndex - 1) / 2); // Parent index in a 0-based array
+        if (curIndex <= 0) return;  // Root does not need to be heapifed
+
+        let parentIndex = Math.floor((curIndex - 1) / 2); // P = i / 2 (floor and -1 since integers and starts in an array)
+
+        const needsSwapping = this.heap[parentIndex] > this.heap[curIndex];
+
+        this.draw();
+
+        // Animate that we do or do not need to swap -- highlight nodes, update IB
+        this.drawInputBox("Heapify Check", false, "", false, 0, 0, (needsSwapping ? "Yes → Heapify" : "No → Stop"), "Is " + this.heap[parentIndex] + " < " + this.heap[curIndex] + "?");
+
+        const canvas = this.canvasRef;
+        const ctx = canvas.getContext('2d');
+
+        const index1Pos = getNodePosition(curIndex);
+        const index2Pos = getNodePosition(parentIndex);
+
+        let x1 = index1Pos.x, y1 = index1Pos.y;
+        let x2 = index2Pos.x, y2 = index2Pos.y;
+
+        drawNode(ctx, x1, y1, this.heap[curIndex], "#FFD700");
+        drawNode(ctx, x2, y2, this.heap[parentIndex], "#FFD700");
+
+        await delay(2000); // Hold for some time
 
         // If heap property is violated, animate and swap
-        if (this.heap[parentIndex] > this.heap[curIndex]) {
+        if (needsSwapping) {
             // Wait for the swap animation to complete before continuing
             await this.animateSwap(parentIndex, curIndex);
 
@@ -463,7 +488,7 @@ export const MinHeap = {
 
     setCanvasRef(canvasRef) {
         this.canvasRef = canvasRef;
-        this.inputWidth = 3.2 * (((this.canvasRef?.width - 20) - (this.max_size - 1) * 2) / this.max_size);
+        this.inputWidth = 6.35 * (((this.canvasRef?.width - 20) - (this.max_size - 1) * 2) / this.max_size);
         //this.canvasRef.addEventListener('mousemove', this.handleMouseMove.bind(this));
     },
 
@@ -490,18 +515,18 @@ export const MinHeap = {
         }
     },
 
-    drawInputBox(txt, isNode = false, nodeTxt = "", isNodeMoving = false, nodeX = 0, nodeY = 0) {
+    drawInputBox(txt, isNode = false, nodeTxt = "", isNodeMoving = false, nodeX = 0, nodeY = 0, alt = "", mid = "") {
         const ctx = this.canvasRef.getContext('2d');
 
         ctx.beginPath();
-        ctx.rect(10, 80, this.inputWidth, 90);
+        ctx.rect(10, 80, this.inputWidth, 140);
         ctx.fillStyle = "#f7e8e8";
         ctx.fill();
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        if (isNode) drawNode(ctx, nodeX, nodeY, nodeTxt, "#add8e6",nodeTxt === "");
+        if (isNode) drawNode(ctx, nodeX, nodeY + 10, nodeTxt, "#add8e6",nodeTxt === "");
 
         let fontSize = 20;
         ctx.font = `${fontSize}px Arial`;
@@ -511,6 +536,8 @@ export const MinHeap = {
         ctx.textBaseline = 'middle';
 
         ctx.fillText(txt, 10 + (this.inputWidth / 2), 80 + 18);
+        ctx.fillText(mid, 10 + (this.inputWidth / 2), 137);
+        ctx.fillText(alt, 10 + (this.inputWidth / 2), 200);
     },
 
     drawArray() {

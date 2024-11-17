@@ -157,10 +157,16 @@ export default function Animation({algorithm}) {
                         value={input}
                         onChange={(event) => setInput (event.target.value)}
                         sx={{
-                            scale : "90%",
-                            width : "120px",
-                            backgroundColor : "#ffffff",
-                            color : "#000",
+                            scale: "85%",
+                            width: "120px",
+                            backgroundColor: "white",
+                            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.15)",
+                            "& .MuiFilledInput-root": {
+                                borderRadius: "4px",
+                            },
+                            "& .MuiInputLabel-root": {
+                                color: "black",
+                            },
                         }}
                         slotProps={{
                             htmlInput : {

@@ -178,7 +178,7 @@ li {
 
 .animations-header {
     background-color: var(--secondary-color);
-    height: 50px;
+    height: 60px;
     width: 100%;
     display: flex;
     align-items: center;
