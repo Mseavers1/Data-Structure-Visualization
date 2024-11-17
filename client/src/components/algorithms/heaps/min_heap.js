@@ -369,19 +369,40 @@ export const MinHeap = {
         value === 0 ? this.animation_speed = 5000 : this.animation_speed = (y * value) + 400;
     },
 
-    remove(value) {
+    async remove (value) {
 
         if (this.heap.length <= 0 || value === "" || this.is_animating) return;
 
-        const val = parseFloat(value)
+        const val = parseFloat (value)
+
+        const canvas = this.canvasRef;
+        const ctx = canvas.getContext('2d');
+
+        // Animation 1 - Preparing to remove the node
+        this.drawInputBox ("Remove Node " + value, false, "", false, 10 + (this.inputWidth / 2), 137, "From the " + this.name);
+        this.is_animating = true;
+        await delay (2000)
 
         let valueIndex = -1; // Default -1 meaning it is not in the heap
+
+        // Animation 2 - Check if node is in the heap
 
         // Find the index of the value if exists -- Linear Search
         for (let i = 0; i < this.heap.length; i++) {
 
+            const found = Number (this.heap[i]) === val
+            this.drawInputBox ("Find Node " + value, false, "", false, 10 + (this.inputWidth / 2), 137, found ? "Yes → Return index " + i : "No → continue", "Is " + this.heap[i] + " = " + value + "?");
+
+            const index = getNodePosition(i);
+            let x = index.x, y = index.y;
+            drawNode(ctx, x, y, this.heap[i], "#FFD700");
+
+            await delay (2000)
+
+            this.draw()
+
             // Found item
-            if (Number(this.heap[i]) === val) {
+            if (found) {
                 valueIndex = i;
                 break;
             }
@@ -389,23 +410,23 @@ export const MinHeap = {
 
         // Value is not in heap
         if (valueIndex < 0) {
-            alert("Value not in heap")
+            this.drawInputBox ("Find Node " + value, false, "", false, 10 + (this.inputWidth / 2), 137, "Node is not in Heap", "");
             return;
         }
 
         if (valueIndex === this.heap.length - 1) {
-            this.heap.pop()
-            this.draw()
+            this.heap.pop ()
+            this.draw ()
         } else {
-            this.animateSwap (valueIndex, this.heap.length - 1).then (r  => {
+            this.animateSwap (valueIndex, this.heap.length - 1).then (r => {
                 // Put the value in the last index into this index
                 this.heap[valueIndex] = this.heap[this.heap.length - 1];
 
                 // Delete the last index
-                this.heap.pop()
+                this.heap.pop ()
 
                 // Heapify
-                this.heapify_down ().then (r  =>  this.draw());
+                this.heapify_down ().then (r => this.draw ());
             })
         }
     },
@@ -429,7 +450,7 @@ export const MinHeap = {
         this.draw();
 
         // Animate that we do or do not need to swap -- highlight nodes, update IB
-        this.drawInputBox("Heapify Check", false, "", false, 0, 0, (needsSwapping ? "Yes → Heapify" : "No → Stop"), "Is " + this.heap[parentIndex] + " < " + this.heap[curIndex] + "?");
+        this.drawInputBox("Heapify Check", false, "", false, 0, 0, (needsSwapping ? "Yes → Swap" : "No → Stop"), "Is " + this.heap[parentIndex] + " < " + this.heap[curIndex] + "?");
 
         const canvas = this.canvasRef;
         const ctx = canvas.getContext('2d');
