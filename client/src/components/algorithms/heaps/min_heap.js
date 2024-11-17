@@ -545,18 +545,69 @@ export const MinHeap = {
     },
 
     async heapify_down(curIndex = 0) {
+
+        const canvas = this.canvasRef;
+        const ctx = canvas.getContext('2d');
+
         let leftChildIndex = 2 * curIndex + 1;
         let rightChildIndex = 2 * curIndex + 2;
         let smallest = curIndex;
 
-        // Check if left child exists and is smaller than the current node
-        if (leftChildIndex < this.heap.length && this.heap[leftChildIndex] < this.heap[smallest]) {
-            smallest = leftChildIndex;
+        const curPos = getNodePosition(curIndex);
+        const leftPos = getNodePosition(leftChildIndex);
+        const rightPos = getNodePosition(rightChildIndex);
+
+        let x1 = curPos.x, y1 = curPos.y;
+        let x2 = leftPos.x, y2 = leftPos.y;
+        let x3 = rightPos.x, y3 = rightPos.y;
+
+        drawNode(ctx, x1, y1, this.heap[curIndex], "#FFD700");
+
+        // Check if the left child exists
+        if (leftChildIndex < this.heap.length) {
+            drawNode(ctx, x2, y2, this.heap[leftChildIndex], "#FFD700");
+            this.drawInputBox(
+                "Heapify Check",
+                false,
+                "",
+                false,
+                0,
+                0,
+                (this.heap[leftChildIndex] < this.heap[smallest]) ? "Yes → Swap" : "No → Check Right Child",
+                "Is " + this.heap[leftChildIndex] + " < " + this.heap[smallest] + "?"
+            );
+            await delay(2000);
+
+            // Check if left child is smaller than the current node
+            if (this.heap[leftChildIndex] < this.heap[smallest]) {
+                smallest = leftChildIndex;
+            }
         }
 
-        // Check if right child exists and is smaller than the smallest value so far
-        if (rightChildIndex < this.heap.length && this.heap[rightChildIndex] < this.heap[smallest]) {
-            smallest = rightChildIndex;
+        // Check the right child only if the left child didn't change anything
+        if (smallest === curIndex) {
+            this.draw();
+            // Check if the right child exists
+            if (rightChildIndex < this.heap.length) {
+                this.drawInputBox(
+                    "Heapify Check",
+                    false,
+                    "",
+                    false,
+                    0,
+                    0,
+                    (this.heap[rightChildIndex] < this.heap[smallest]) ? "Yes → Swap" : "No → Stop",
+                    "Is " + this.heap[rightChildIndex] + " < " + this.heap[smallest] + "?"
+                );
+                drawNode(ctx, x1, y1, this.heap[curIndex], "#FFD700");
+                drawNode(ctx, x3, y3, this.heap[rightChildIndex], "#FFD700");
+                await delay(2000);
+
+                // Check if the right child is smaller than the current smallest value
+                if (this.heap[rightChildIndex] < this.heap[smallest]) {
+                    smallest = rightChildIndex;
+                }
+            }
         }
 
         // If the smallest value is the current index, the heap property is satisfied, so stop
