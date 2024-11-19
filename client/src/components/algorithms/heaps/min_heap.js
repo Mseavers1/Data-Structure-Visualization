@@ -643,8 +643,8 @@ export const MinHeap = {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        this.levelHeight = Math.max(60, viewportHeight / 5);
-        this.horizontalSpacing = Math.max(200, viewportWidth / 4);
+        this.levelHeight = Math.max(60, viewportHeight / 12);
+        this.horizontalSpacing = Math.max(200, viewportWidth / 2);
 
         //this.canvasRef.addEventListener('mousemove', this.handleMouseMove.bind(this));
     },
