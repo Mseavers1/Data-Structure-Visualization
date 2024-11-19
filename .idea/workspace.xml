@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="700caeda-9d7d-400c-93e1-8d9f6503d76d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/about.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/about.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/algorithms/heaps/min_heap.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/algorithms/heaps/min_heap.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +90,7 @@
       <workItem from="1731397502319" duration="9471000" />
       <workItem from="1731408335205" duration="25414000" />
       <workItem from="1731734585031" duration="34745000" />
-      <workItem from="1731981767475" duration="362000" />
+      <workItem from="1731981767475" duration="1311000" />
     </task>
     <servers />
   </component>

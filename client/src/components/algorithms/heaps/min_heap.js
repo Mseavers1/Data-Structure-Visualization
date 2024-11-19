@@ -5,6 +5,7 @@ export const MinHeap = {
     max_size: 63,
     is_animating: false,
     animation_speed: 200,
+    animation_sec_speed: 2,
     pause_animation: false,
     inputWidth: 300,
     highlightedIndex: -1,
@@ -367,6 +368,13 @@ export const MinHeap = {
         const y = (1 - 400) / 100;
 
         value === 0 ? this.animation_speed = 5000 : this.animation_speed = (y * value) + 400;
+
+        if (value === 100) this.animation_sec_speed = 10;
+        else if (value >= 66 && value < 100) this.animation_sec_speed = 1000;
+        else if (value >= 33 && value < 66) return this.animation_sec_speed = 1500;
+        else if (value > 0 && value < 33) return this.animation_sec_speed = 2000;
+        else this.animation_sec_speed = 3000;
+
     },
 
     //        this.drawInputBox ("Find Node " + value, false, "", false, 10 + (this.inputWidth / 2), 137, found ? "Yes → Return index " + i : "No → continue", "Is " + this.heap[i] + " = " + value + "?");
@@ -825,5 +833,5 @@ const getNodePosition = (index, x = MinHeap.canvasRef.width / 2, y = 120) => {
 };
 
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, MinHeap.animation_sec_speed));
 }
