@@ -57,16 +57,16 @@ export const MinHeap = {
 
         const rect = this.canvasRef.getBoundingClientRect();
         const ctx = this.canvasRef.getContext('2d');
-        const mouseX = event.clientX - rect.left; // Mouse X position relative to the canvas
-        const mouseY = event.clientY - rect.top;  // Mouse Y position relative to the canvas
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
 
         // Check if the mouse is within the array box
-        const yPosition = 40; // Same as yPosition in drawArray
-        const boxHeight = 30; // Same as boxHeight in drawArray
+        const yPosition = 40;
+        const boxHeight = 30;
         if (mouseY >= yPosition && mouseY <= yPosition + boxHeight) {
             const arrayLength = this.max_size;
-            const padding = 2; // Same as padding in drawArray
-            const boxWidth = this.canvasRef.width - 20; // Same as boxWidth in drawArray
+            const padding = 2;
+            const boxWidth = this.canvasRef.width - 20;
             const slotWidth = (boxWidth - (arrayLength - 1) * padding) / arrayLength;
 
             // Calculate which index is hovered
@@ -96,8 +96,8 @@ export const MinHeap = {
 
 
                 if (Math.pow(mouseX - curr.x, 2) + Math.pow(mouseY - curr.y, 2) <= Math.pow(nodeRadius, 2)) {
-                    this.highlightedIndex = i; // Highlight this node
-                    break; // Exit loop once a node is found to be hovered
+                    this.highlightedIndex = i;
+                    break;
                 }
             }
         }
@@ -126,7 +126,7 @@ export const MinHeap = {
     },
 
     getRandomString(length) {
-        const characters = 'abcdefghijklmnopqrstuvwxyz'; // You can customize this to include numbers, uppercase letters, etc.
+        const characters = 'abcdefghijklmnopqrstuvwxyz';
         let result = '';
         for (let i = 0; i < length; i++) {
             const randomIndex = Math.floor(Math.random() * characters.length);
@@ -671,7 +671,7 @@ export const MinHeap = {
 
         // Draw the heap starting from the root (index 0)
         if (this.heap.length > 0) {
-            drawTree(ctx, this.horizontalSpacing, this.levelHeight,0, canvas.width / 2, 120, 1); // Start drawing tree below the array
+            drawTree(ctx, this.horizontalSpacing, this.levelHeight,0, canvas.width / 2, 120, 1);
         }
     },
 
@@ -722,11 +722,11 @@ export const MinHeap = {
     },
 
     drawArray() {
-        const nilText = 'nil';  // The value for empty slots
-        const yPosition = 40;  // Position the array text just above the tree (adjust as needed)
-        const padding = 2;  // Smaller padding between the boxes
-        const boxHeight = 30;  // Height of the big box that contains all array elements
-        const boxWidth = this.canvasRef.width - 20;  // Width of the big box (slightly smaller than canvas)
+        const nilText = 'nil';
+        const yPosition = 40;
+        const padding = 2;
+        const boxHeight = 30;
+        const boxWidth = this.canvasRef.width - 20;
         const arrayLength = this.max_size
         const ctx = this.canvasRef.getContext('2d');
 
@@ -738,7 +738,7 @@ export const MinHeap = {
         ctx.stroke();
 
         // Calculate the width of each slot in the array
-        const slotWidth = (boxWidth - (arrayLength - 1) * padding) / arrayLength;  // Evenly distribute space
+        const slotWidth = (boxWidth - (arrayLength - 1) * padding) / arrayLength;
 
         // Draw the individual elements inside the box
         ctx.fillStyle = 'black';
@@ -750,8 +750,8 @@ export const MinHeap = {
         // Draw indexes above each section
         const indexYOffset = -12;  // Vertical offset for index numbers
         for (let i = 0; i < arrayLength; i++) {
-            const xPosition = 10 + i * (slotWidth + padding);  // Horizontal position for each element
-            const value = this.heap[i] !== undefined ? this.heap[i] : nilText;  // Use "nil" for empty slots
+            const xPosition = 10 + i * (slotWidth + padding);
+            const value = this.heap[i] !== undefined ? this.heap[i] : nilText;
 
             if (i === this.highlightedIndex) {
                 ctx.fillStyle = '#FFD700';

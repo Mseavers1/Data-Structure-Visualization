@@ -65,22 +65,20 @@ export default function Animation({algorithm}) {
 
     const handleRandomChange = (event) => {
         const value = event.target.value;
-        if (/^\d*$/.test(value) && value > 0 && value <= 63) { // Only allows digits & from 1 to 62
+        if (/^\d*$/.test(value) && value > 0 && value <= 63) {
             setRandomN(value);
         }
     };
 
     const handleRadioChange = (event) => {
-        setSelectedOption(event.target.value); // Update the selected radio option
+        setSelectedOption(event.target.value);
     };
-
 
     // Close the popover when clicking outside
     const handleClose = () => {
         setAnchorEl(null);
     };
 
-    // Determine if the popover is open
     const open = Boolean(anchorEl);
 
     const handleSliderChange = (event, newValue) => {
@@ -92,8 +90,8 @@ export default function Animation({algorithm}) {
     const setCanvasSize = () => {
         if (canvasRef.current) {
             const canvas = canvasRef.current;
-            canvas.width = window.innerWidth; // Set canvas width to window width
-            canvas.height = window.innerHeight; // Set canvas height to window height
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
     };
 
@@ -111,10 +109,10 @@ export default function Animation({algorithm}) {
     // Set the canvasRef for the MinHeap visualization
     React.useEffect(() => {
         if (canvasRef.current) {
-            algorithm.setCanvasRef(canvasRef.current); // Link the canvas to MinHeap
+            algorithm.setCanvasRef(canvasRef.current);
         }
 
-    }, [algorithm]); // Only run this effect when algorithm changes
+    }, [algorithm]);
 
     React.useEffect(() => {
         if (algorithm && canvasRef.current) {
@@ -204,24 +202,24 @@ export default function Animation({algorithm}) {
                             <Box
                                 sx={{
                                     display : 'flex',
-                                    flexDirection : 'column', // Stack elements vertically
-                                    justifyContent : 'flex-start', // Align content to the top
+                                    flexDirection : 'column',
+                                    justifyContent : 'flex-start',
                                     alignItems : 'center',
-                                    width : 250, // Adjust the width of the Popover container
+                                    width : 250,
                                     padding : '10px',
                                 }}
                             >
                                 {/* Slider for Number Input */}
                                 <Box sx={{ width: '100%', marginBottom: '10px' }}>
-                                    <Typography gutterBottom>Length of Array</Typography> {/* Optional: Label for the slider */}
+                                    <Typography gutterBottom>Length of Array</Typography>
                                     <Slider
-                                        value={randomN} // Bind this to your state for handling the slider value
-                                        onChange={handleRandomChange} // Handle input changes
-                                        min={0} // Set the minimum value
-                                        max={algorithm.max_size} // Set the maximum value
-                                        step={1} // Set the step value
-                                        valueLabelDisplay="auto" // Display the current value on the slider
-                                        valueLabelFormat={(value) => `${value}`} // Format the value label (optional)
+                                        value={randomN}
+                                        onChange={handleRandomChange}
+                                        min={0}
+                                        max={algorithm.max_size}
+                                        step={1}
+                                        valueLabelDisplay="auto"
+                                        valueLabelFormat={(value) => `${value}`}
                                     />
                                 </Box>
 
@@ -229,8 +227,8 @@ export default function Animation({algorithm}) {
                                 <Box sx={{marginBottom : '10px'}}>
                                     <FormControl>
                                         <RadioGroup
-                                            value={selectedOption} // This should be controlled state for radio button selection
-                                            onChange={handleRadioChange} // Handle change event for radio buttons
+                                            value={selectedOption}
+                                            onChange={handleRadioChange}
                                             row
                                         >
                                             <FormControlLabel value="number" control={<Radio/>} label="Numbers"/>
@@ -247,7 +245,7 @@ export default function Animation({algorithm}) {
                                         color : '#ffffff',
                                         width : '100%'
                                     }}
-                                    onClick={onRandomizedClick} // Handle the button click
+                                    onClick={onRandomizedClick}
                                 >
                                     Randomize
                                 </Button>
@@ -298,18 +296,18 @@ export default function Animation({algorithm}) {
                             '& .MuiSlider-rail' : {
                                 opacity : 1,
                                 backgroundColor : 'gray',
-                                height : 8, // Makes the rail thicker
+                                height : 8,
                             },
                             '& .MuiSlider-track' : {
-                                backgroundColor : '#d9534f', // Change color of the track
-                                height : 8, // Makes the track thicker
+                                backgroundColor : '#d9534f',
+                                height : 8,
                             },
                             '& .MuiSlider-thumb' : {
-                                backgroundColor : 'black', // Customize the thumb color
-                                width : 24, // Thumb size
+                                backgroundColor : 'black',
+                                width : 24,
                                 height : 24,
                                 '&:hover' : {
-                                    backgroundColor : 'green', // Hover effect on thumb
+                                    backgroundColor : 'green',
                                 },
                             },
                         }}

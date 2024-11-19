@@ -131,7 +131,7 @@ const App = () => {
                 <footer>
                     <div className="footer">
                         <h3>Developed by Michael Seavers </h3>
-                        <h3>For Western Kentucky University</h3>
+                        <h3>For Western Kentucky University (Unofficial)</h3>
                         <h3>November 20th, 2024</h3>
                     </div>
                 </footer>
