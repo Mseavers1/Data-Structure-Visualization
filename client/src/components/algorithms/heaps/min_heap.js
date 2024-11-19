@@ -2,7 +2,7 @@ export const MinHeap = {
 
     heap: [],
     canvasRef: null,
-    max_size: 63,
+    max_size: 31,
     is_animating: false,
     animation_speed: 200,
     animation_sec_speed: 2,
@@ -10,6 +10,8 @@ export const MinHeap = {
     inputWidth: 300,
     highlightedIndex: -1,
     highlight_mode: true,
+    levelHeight: 0,
+    horizontalSpacing: 0,
     name: "Heap",
 
     async add (value) {
@@ -633,7 +635,17 @@ export const MinHeap = {
 
     setCanvasRef(canvasRef) {
         this.canvasRef = canvasRef;
-        this.inputWidth = 6.35 * (((this.canvasRef?.width - 20) - (this.max_size - 1) * 2) / this.max_size);
+        this.inputWidth = 4.35 * (((this.canvasRef?.width - 20) - (this.max_size - 1) * 2) / this.max_size);
+
+        const canvas = this.canvasRef;
+        const ctx = canvas.getContext('2d');
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        this.levelHeight = Math.max(60, viewportHeight / 8);
+        this.horizontalSpacing = Math.max(200, viewportWidth / 4);
+
         //this.canvasRef.addEventListener('mousemove', this.handleMouseMove.bind(this));
     },
 
@@ -643,8 +655,11 @@ export const MinHeap = {
         const canvas = this.canvasRef;
         const ctx = canvas.getContext('2d');
 
-        const levelHeight = 80;  // Vertical space between levels
-        const horizontalSpacing = 1000;  // Horizontal space between nodes
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        //const levelHeight = Math.max(60, viewportHeight / 12); // Set a minimum of 60, otherwise scale based on viewport height
+        //const horizontalSpacing = Math.max(200, viewportWidth / 8);
 
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
 
@@ -656,7 +671,7 @@ export const MinHeap = {
 
         // Draw the heap starting from the root (index 0)
         if (this.heap.length > 0) {
-            drawTree(ctx, horizontalSpacing, levelHeight,0, canvas.width / 2, 120, 1); // Start drawing tree below the array
+            drawTree(ctx, this.horizontalSpacing, this.levelHeight,0, canvas.width / 2, 120, 1); // Start drawing tree below the array
         }
     },
 
@@ -680,8 +695,29 @@ export const MinHeap = {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
+        while (ctx.measureText(txt).width > this.inputWidth - 20) {
+            fontSize -= 1; // Decrease font size
+            ctx.font = `${fontSize}px Arial`;
+        }
+
         ctx.fillText(txt, 10 + (this.inputWidth / 2), 80 + 18);
+
+        fontSize = 20;
+
+        while (ctx.measureText(mid).width > this.inputWidth - 20) {
+            fontSize -= 1; // Decrease font size
+            ctx.font = `${fontSize}px Arial`;
+        }
+
         ctx.fillText(mid, 10 + (this.inputWidth / 2), 137);
+
+        fontSize = 20;
+
+        while (ctx.measureText(alt).width > this.inputWidth - 20) {
+            fontSize -= 1; // Decrease font size
+            ctx.font = `${fontSize}px Arial`;
+        }
+
         ctx.fillText(alt, 10 + (this.inputWidth / 2), 200);
     },
 
@@ -817,8 +853,8 @@ const drawTree = (ctx, horizontalSpacing, levelHeight, index, x, y, level) => {
 };
 
 const getNodePosition = (index, x = MinHeap.canvasRef.width / 2, y = 120) => {
-    const levelHeight = 80;
-    const horizontalSpacing = 1000;
+    const levelHeight = MinHeap.levelHeight;
+    const horizontalSpacing = MinHeap.horizontalSpacing;
     const level = Math.floor(Math.log2(index + 1));
 
     if (index === 0) return { x, y };
