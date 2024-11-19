@@ -49,7 +49,15 @@ export default function About() {
             </h1>
 
             <p>
+                Currently, only the <a href="http://localhost:3000/algorithms/heaps/min"> Min Heap</a> data structure has a visualization. You are able to insert values (numbers or characters) into the input field but it is limited to 5 characters (- and . count as 1 character).
+            </p>
 
+            <p>
+                You can either add that value into the heap, attempt to remove it, or select randomize to create a randomize heap (build heap algorithm).
+            </p>
+
+            <p>
+                You can change the animation speed at the bottom and pause/unpause at any time. Also, if you want to highlight a node to see where it is in the array or tree, turn on highlight mode at the top right. With this mode, whenever you mouse over a node or cell, it will highlight it and the opposite part (cell -> node or node -> cell).
             </p>
 
         </div>
